@@ -1,7 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-// import authRoutes from './routes/authRouter.js';
 import cookieParser from 'cookie-parser';
 import path from 'path';
 import userRoutes from './routes/user.route.js'
@@ -28,7 +27,8 @@ app.use(cookieParser());
 app.listen(3000, () => {
   console.log('Server is running on port 3000!');
 });
-app.use('/test',userRoutes)
+app.use('/api/auth',authRoutes)
+app.use('/api/user',userRoutes)
 app.get('/', (req,res)=>{
     res.json({"message":"API is working"})
 });
@@ -36,12 +36,12 @@ app.get('/', (req,res)=>{
 
 
 
-// app.use((err, req, res, next) => {
-//   const statusCode = err.statusCode || 500;
-//   const message = err.message || 'Internal Server Error';
-//   res.status(statusCode).json({
-//     success: false,
-//     statusCode,
-//     message,
-//   });
-// });
+app.use((err, req, res, next) => {
+  const statusCode = err.statusCode || 500;
+  const message = err.message || 'Internal Server Error';
+  res.status(statusCode).json({
+    success: false,
+    statusCode,
+    message,
+  });
+});

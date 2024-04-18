@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { SheetTrigger, SheetContent, Sheet } from "@/components/ui/sheet";
@@ -8,7 +8,10 @@ import { ModeToggle } from "./mode-toggle";
 const Navbar = () => {
 
   const path=useLocation().pathname
-  console.log(path);
+  const navigate=useNavigate()
+  const handlesignup=()=>{
+    navigate('/sign-up')
+  }
   return (
     <header className="flex items-center justify-around h-16 px-4 md:px-6 border-b border-gray-200 dark:border-gray-800">
       <Link className="flex items-center gap-2 text-lg font-semibold" href="#">
@@ -51,7 +54,7 @@ const Navbar = () => {
         </nav>
         <div className="flex items-center gap-4">
           <ModeToggle />
-          <Button variant="primary">Sign Up</Button>
+          <Button variant="primary"onClick={handlesignup}>Sign Up</Button>
         </div>
         <Sheet>
           <SheetTrigger asChild>

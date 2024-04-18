@@ -7,6 +7,7 @@ import Dashboard from "./pages/Dashboard"
 import Projects from "./pages/Projects"
 import Header from "./components/Navbar"
 import { ThemeProvider } from "./components/themeprovider"
+import { Toaster } from "react-hot-toast"
 
 
 function App() {
@@ -24,6 +25,8 @@ function App() {
 
     </Routes>
     </BrowserRouter>
+    <Toaster />
+
     </ThemeProvider>
   )
 }
