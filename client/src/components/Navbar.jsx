@@ -16,7 +16,7 @@ const Navbar = () => {
   const navigate=useNavigate()
 
   return (
-    <header className="flex items-center justify-around h-16 px-4 md:px-6 border-b border-gray-200 dark:border-gray-800">
+    <header className="flex items-center justify-around h-16 px-4 md:px-6 border-b border-gray-300 dark:border-gray-800">
       <Link className="flex items-center gap-2 text-lg font-semibold" href="#">
         <span className="px-2 py-1 bg-gradient-to-r from-slate-700 via-slate-800 to-slate-950 rounded-lg text-white dark:from-slate-100 dark:via-slate-300 dark:to-slate-400 dark:text-slate-800">
           Sribeways
