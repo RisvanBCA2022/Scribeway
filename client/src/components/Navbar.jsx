@@ -4,8 +4,13 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { SheetTrigger, SheetContent, Sheet } from "@/components/ui/sheet";
 import { ModeToggle } from "./mode-toggle";
+import { useSelector } from "react-redux";
+import { DropdownMenu } from "./ui/dropdown-menu";
+import { DropdownMenuCheckboxes } from "./UserDropDown";
 
 const Navbar = () => {
+  const {currentUser}=useSelector((state)=>state.user)
+  console.log(currentUser);
 
   const path=useLocation().pathname
   const navigate=useNavigate()
@@ -54,7 +59,15 @@ const Navbar = () => {
         </nav>
         <div className="flex items-center gap-4">
           <ModeToggle />
-          <Button variant="primary"onClick={handlesignup}>Sign Up</Button>
+
+          {
+            currentUser?(
+              <DropdownMenuCheckboxes />
+            ):(
+              
+       <Button variant="primary"onClick={handlesignup}>Sign Up</Button>
+            )
+          }
         </div>
         <Sheet>
           <SheetTrigger asChild>
