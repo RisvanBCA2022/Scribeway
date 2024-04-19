@@ -16,11 +16,11 @@ const Sidebar = () => {
   };
 
   return (
-      <div className="w-full md:w-56 p-5 bg-slate-100 dark:bg-gray-900 md:min-h-screen lg:min-h-screen h-96">
+      <div className="w-full md:w-56 p-5 bg-slate-100 dark:bg-gray-900 md:min-h-screen lg:min-h-screen h-60">
         <nav className="mt-10">
           <Link
           to='/dashboard?tab=profile'
-            className="flex items-center px-4 py-2 mt-5 dark:text-gray-200 transition-colors duration-200 transform bg-gray-700 rounded-md hover:bg-gray-600"
+            className="flex items-center px-4 py-2 mt-5 text-white dark:text-gray-200 transition-colors duration-200 transform bg-gray-700 rounded-md hover:bg-gray-600"
             href="#"
           >
             <CircleUserRound className="w-5 h-5" />
