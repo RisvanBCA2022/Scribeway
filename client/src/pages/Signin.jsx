@@ -3,22 +3,27 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
+import { signInSuccess,signInFailure,signInStart } from "@/redux/user/userSlice";
+import { useDispatch,useSelector } from "react-redux";
 
 export default function Signin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading,setLoading]=useState(false)
 
+  const {loading,error:errorMessage}=useSelector(state=>state.user)
+
+  const dispatch=useDispatch()
   const navigate=useNavigate()
 
   const handleRegister = async (e) => {
     const formdata={email,password}
       e.preventDefault();
       if(!formdata.email || formdata.email==="" || !formdata.password || formdata.password===""){
+        dispatch(signInFailure('please fill out all the fields'))
         return toast.error("Please fill out all fields")
       }
       try {
-        setLoading(true)
+        dispatch(signInStart())
         const res = await fetch('/api/auth/signin',{
           method:'POST',
           headers:{'Content-Type':'application/json'},
@@ -29,19 +34,21 @@ export default function Signin() {
         console.log(data);
 
         if(data.success === false){
-          return toast.error(data.message)
+          dispatch(signInFailure(data.message))
         }
         
         if(res.ok){
+          dispatch(signInSuccess(data))
+          toast.success('Sign in successfull')
         setEmail('')
         setPassword('')
           navigate('/')
         }
         
       } catch (error) {
-        toast.error(error.message)
+        dispatch(signInFailure(error.message))
+        toast.error(errorMessage)
       } finally{
-        setLoading(false)
       }
 
   };
