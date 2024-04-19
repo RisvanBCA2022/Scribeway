@@ -10,13 +10,34 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Link } from "react-router-dom";
 import { LogOut } from "lucide-react";
+import { signOutSuccess } from "@/redux/user/userSlice";
 
 export function DropdownMenuCheckboxes() {
   const { currentUser } = useSelector((state) => state.user);
+  const dispatch=useDispatch()
+
+  const handleSignout=async ()=>{
+    try {
+      const res = await fetch('/api/user/signout',{
+        method:"POST"
+      })
+
+      const data = await res.json()
+      if(!res.ok){
+        console.log(data.message)
+      } else {
+        dispatch(signOutSuccess())
+
+      }
+      
+    } catch (error) {
+      
+    }
+  }
 
   return (
     <DropdownMenu>
@@ -35,7 +56,7 @@ export function DropdownMenuCheckboxes() {
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           <LogOut className="mr-2 h-4 w-4 text-red-500" />
-          <span className="text-red-500">Log out</span> 
+          <span className="text-red-500" onClick={handleSignout}>Log out</span> 
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

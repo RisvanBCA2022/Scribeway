@@ -1,11 +1,14 @@
+import { signOutSuccess } from '@/redux/user/userSlice';
 import { CheckCheck,CheckIcon, CircleUserRound, Columns2, LogOut, X } from 'lucide-react';
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 
 const Sidebar = () => {
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const dispatch=useDispatch()
 
   const toggleSubMenu = () => {
     setIsSubMenuOpen(!isSubMenuOpen);
@@ -14,6 +17,24 @@ const Sidebar = () => {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+  const handleSignout=async ()=>{
+    try {
+      const res = await fetch('/api/user/signout',{
+        method:"POST"
+      })
+
+      const data = await res.json()
+      if(!res.ok){
+        console.log(data.message)
+      } else {
+        dispatch(signOutSuccess())
+
+      }
+      
+    } catch (error) {
+      
+    }
+  }
 
   return (
       <div className="w-full md:w-56 p-5 bg-slate-100 dark:bg-gray-900 md:min-h-screen lg:min-h-screen h-60">
@@ -31,7 +52,7 @@ const Sidebar = () => {
             href="#"
           >
             <LogOut className="w-5 h-5" />
-            <span className="mx-4 font-medium">Sign Out</span>
+            <span className="mx-4 font-medium" onClick={handleSignout}>Sign Out</span>
           </a>
         </nav>
       </div>

@@ -10,10 +10,11 @@ import { DropdownMenuCheckboxes } from "./UserDropDown";
 
 const Navbar = () => {
   const {currentUser}=useSelector((state)=>state.user)
-  console.log(currentUser);
-
   const path=useLocation().pathname
   const navigate=useNavigate()
+
+
+  
 
   return (
     <header className="flex items-center justify-around h-16 px-4 md:px-6 border-b border-gray-300 dark:border-gray-800">
