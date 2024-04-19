@@ -8,6 +8,7 @@ import Projects from "./pages/Projects"
 import Header from "./components/Navbar"
 import { ThemeProvider } from "./components/themeprovider"
 import { Toaster } from "react-hot-toast"
+import Footer from "./components/Footer"
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
       <Route path="/projects" element={<Projects />} />
 
     </Routes>
+    <Footer />
     </BrowserRouter>
     <Toaster />
 

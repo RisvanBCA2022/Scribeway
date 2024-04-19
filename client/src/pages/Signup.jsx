@@ -48,6 +48,7 @@ export default function Signup() {
 
   };
   return (
+    <div className="min-h-[100vh]">
     <div className="flex max-h-screen items-center justify-center bg-gray-100 dark:bg-slate-950 p-4 mt-16">
       <div className="w-full max-w-md space-y-8">
         <div className="flex justify-center">
@@ -129,6 +130,8 @@ export default function Signup() {
         </div>
       </div>
     </div>
+    </div>
+
   );
 }
 
