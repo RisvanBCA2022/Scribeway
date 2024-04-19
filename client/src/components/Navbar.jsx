@@ -14,9 +14,7 @@ const Navbar = () => {
 
   const path=useLocation().pathname
   const navigate=useNavigate()
-  const handlesignup=()=>{
-    navigate('/sign-up')
-  }
+
   return (
     <header className="flex items-center justify-around h-16 px-4 md:px-6 border-b border-gray-200 dark:border-gray-800">
       <Link className="flex items-center gap-2 text-lg font-semibold" href="#">
@@ -65,7 +63,11 @@ const Navbar = () => {
               <DropdownMenuCheckboxes />
             ):(
               
-       <Button variant="primary"onClick={handlesignup}>Sign Up</Button>
+       <Button asChild>
+        <Link to="/sign-up">
+          Sign Up
+        </Link>
+       </Button>
             )
           }
         </div>
