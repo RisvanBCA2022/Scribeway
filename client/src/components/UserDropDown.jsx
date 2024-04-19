@@ -22,7 +22,7 @@ export function DropdownMenuCheckboxes() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Avatar>
-          <AvatarImage src={currentUser.profilePicture} alt="@shadcn" />
+          <AvatarImage src={currentUser.profilePicture} alt="profilePicture" />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
@@ -34,8 +34,8 @@ export function DropdownMenuCheckboxes() {
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <LogOut className="mr-2 h-4 w-4" />
-          <span>Log out</span> 
+          <LogOut className="mr-2 h-4 w-4 text-red-500" />
+          <span className="text-red-500">Log out</span> 
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
