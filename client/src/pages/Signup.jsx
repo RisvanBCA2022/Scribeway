@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Signup() {
   const [email, setEmail] = useState("");
@@ -11,14 +11,7 @@ export default function Signup() {
   const [username, setUsername] = useState("");
   const [loading,setLoading]=useState(false)
 
-  // const handleError = (err) =>
-  //   toast.error(err, {
-  //     position: "bottom-left",
-  //   });
-  // const handleSuccess = (msg) =>
-  //   toast.success(msg, {
-  //     position: "bottom-left",
-  //   });
+  const navigate=useNavigate()
 
   const handleRegister = async (e) => {
     const formdata={username,email,password}
@@ -43,6 +36,9 @@ export default function Signup() {
         // setUsername('')
         // setEmail('')
         // setPassword('')
+        if(res.ok){
+          navigate('/sign-in')
+        }
         
       } catch (error) {
         toast.error(error.message)
