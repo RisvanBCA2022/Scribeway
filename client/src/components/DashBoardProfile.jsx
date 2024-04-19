@@ -18,6 +18,7 @@ import {
   updateFailure,
 } from "@/redux/user/userSlice";
 import { AlertDestructive } from "./ErrorAlert";
+import { DeleteDialog } from "./DeleteConfirm";
 
 const DashBoardProfile = () => {
   const { currentUser, error, loading } = useSelector((state) => state.user);
@@ -90,19 +91,19 @@ const DashBoardProfile = () => {
     setUpdateUserError(null);
     setUpdateUserSuccess(null);
     if (Object.keys(formData).length === 0) {
-      setUpdateUserError('No changes made');
+      setUpdateUserError("No changes made");
       return;
     }
     if (imageFileUploading) {
-      setUpdateUserError('Please wait for image to upload');
+      setUpdateUserError("Please wait for image to upload");
       return;
     }
     try {
       dispatch(updateStart());
       const res = await fetch(`/api/user/update/${currentUser._id}`, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
@@ -193,14 +194,32 @@ const DashBoardProfile = () => {
         </Button>
       </form>
       <div className="text-orange-700 flex justify-between mt-5">
-        <span className="cursor-pointer">Delete Account</span>
+        {/* <span className="cursor-pointer">Delete Account</span> */}
+        <DeleteDialog />
         <span className="cursor-pointer">Sign Out</span>
       </div>
-      {updateUserSuccess &&
-      <AlertDestructive description={updateUserSuccess} variant="success" title="Success"/>
-      }
-      {updateUserError &&
-      <AlertDestructive description={updateUserError} variant="error" title="Error"/>
+      {updateUserSuccess && (
+        <AlertDestructive
+          description={updateUserSuccess}
+          variant="success"
+          title="Success"
+        />
+      )}
+      {updateUserError && (
+        <AlertDestructive
+          description={updateUserError}
+          variant="error"
+          title="Error"
+        />
+      )}
+      {
+        error && (
+          <AlertDestructive
+          description={error}
+          variant="error"
+          title="Error"
+        />
+        )
       }
     </div>
   );
