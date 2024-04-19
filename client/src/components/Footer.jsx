@@ -11,13 +11,13 @@ const Footer = () => {
         <div className="space-y-4">
           <h4 className="text-lg font-semibold text-gray-950 dark:text-gray-300 ">About</h4>
           <p className="text-sm leading-relaxed">
-            Welcome to our blog, where we share insights, stories, and the latest trends in the world of technology
+            Welcome to Scribeway, where we share insights, stories, and the latest trends in the world of technology
             and beyond.
           </p>
         </div>
         <div className="space-y-4">
           <h4 className="text-lg font-semibold text-gray-950 dark:text-gray-300">Quick Links</h4>
-          <nav className="space-y-2">
+          <nav className="flex gap-4">
             <Link className="hover:text-gray-50 transition-colors" href="#">
               Home
             </Link>
@@ -51,7 +51,7 @@ const Footer = () => {
         </div>
       </div>
       <div className="mt-12 border-t pt-8 text-center text-sm dark:border-gray-800">
-        <p>© {new Date().getFullYear()} Your Blog. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} Scribeway. All rights reserved.</p>
       </div>
     </div>
   </footer>
