@@ -10,20 +10,17 @@ import {
     AlertDialogTrigger,
   } from "@/components/ui/alert-dialog";
   import { Button } from "@/components/ui/button";
-  import {
-    deleteUserFailure,
-    deleteUserSuccess,
-    deleteUserStart,
-  } from "@/redux/user/userSlice";
+
   import { useDispatch, useSelector } from "react-redux";
   
-  export function UserDeleteDialog({ deleteuser,setUserPosts }) {
+  export function UserDeleteDialog({ deleteuser,setUsers }) {
     const { currentUser } = useSelector((state) => state.user);
-  
+    console.log(deleteuser,currentUser);
+
     const handleDeleteUser = async () => {
       try {
         const res = await fetch(
-          `/api/user/deletepost/${user._id}/${currentUser._id}`,
+          `/api/user/delete/${deleteuser._id}`,
           {
             method: 'DELETE',
           }
@@ -32,7 +29,7 @@ import {
         if (!res.ok) {
           console.log(data.message);
         } else {
-          setUserPosts((prev) =>
+            setUsers((prev) =>
             prev.filter((user) => user._id !== deleteuser._id)
           );
         }

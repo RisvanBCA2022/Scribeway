@@ -9,5 +9,6 @@ router.put('/update/:userId',verifyToken,updateUser)
 router.delete('/delete/:userId',verifyToken,deleteuser)
 router.post('/signout',signout)
 router.get('/getusers',verifyToken,getusers)
+router.get('/deleteusers/userId',verifyToken, deleteuser)
 
 export default router

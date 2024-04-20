@@ -11,6 +11,7 @@ import {
 import { PostDeleteDialog } from "./PostDeleteConfirm";
 import { Avatar, AvatarImage } from "./ui/avatar";
 import { ShieldCheck, X } from "lucide-react";
+import { UserDeleteDialog } from "./UserDeleteConfirm";
 
 const Dashboardusers = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -95,7 +96,7 @@ const Dashboardusers = () => {
                   </TableCell>
 
                   <TableCell className="text-center">
-                    <PostDeleteDialog deleteuser={user} setUsers={setUsers} />
+                    <UserDeleteDialog deleteuser={user} setUsers={setUsers} />
                   </TableCell>
                 </TableRow>
               </TableBody>
