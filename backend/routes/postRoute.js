@@ -6,6 +6,6 @@ const router=express.Router()
 
 router.post('/create',verifyToken,createpost)
 router.get('/getposts', getposts)
-router.post('/deletepost/:postId/:userId',verifyToken,deletepost)
+router.delete('/deletepost/:postId/:userId',verifyToken,deletepost)
 
 export default router

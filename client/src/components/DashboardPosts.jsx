@@ -10,12 +10,15 @@ import {
 } from "./ui/table";
 import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
+import { PostDeleteDialog } from "./PostDeleteConfirm";
 
 const DashboardPosts = () => {
   const { currentUser } = useSelector((state) => state.user);
 
   const [userPosts, setUserPosts] = useState([]);
   const [showMore, setShowMore] = useState(true);
+  const [postIdToDelete, setPostIdToDelete] = useState('');
+
 
   console.log(userPosts);
   useEffect(() => {
@@ -58,6 +61,7 @@ const DashboardPosts = () => {
     }
   };
 
+
   return (
     <div className="overflow-x-auto w-full">
       {currentUser.isAdmin && userPosts.length > 0 ? (
@@ -74,8 +78,8 @@ const DashboardPosts = () => {
               </TableRow>
             </TableHeader>
             {userPosts.map((post) => (
-              <TableBody >
-                <TableRow key={post.id} className=" dark:border-gray-700">
+              <TableBody key={post._id} >
+                <TableRow  className=" dark:border-gray-700">
                   <TableCell>
                     {new Date(post.updatedAt).toLocaleDateString()}
                   </TableCell>
@@ -104,9 +108,8 @@ const DashboardPosts = () => {
                   </TableCell>
                   <TableCell>{post.category}</TableCell>
                   <TableCell className="text-center">
-                    <Button size="sm" variant="destructive">
-                      Delete
-                    </Button>
+                    <PostDeleteDialog deletepost={post} setUserPosts={setUserPosts} userPosts={userPosts} />
+                   
                   </TableCell>
                   <TableCell className="text-center">
                     <Link
