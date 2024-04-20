@@ -16,10 +16,11 @@ import {
   updateStart,
   updateSuccess,
   updateFailure,
-  signOutSuccess
+  signOutSuccess,
 } from "@/redux/user/userSlice";
 import { AlertDestructive } from "./ErrorAlert";
 import { DeleteDialog } from "./DeleteConfirm";
+import { Link } from "react-router-dom";
 
 const DashBoardProfile = () => {
   const { currentUser, error, loading } = useSelector((state) => state.user);
@@ -122,24 +123,20 @@ const DashBoardProfile = () => {
     }
   };
 
-  const handleSignout=async ()=>{
+  const handleSignout = async () => {
     try {
-      const res = await fetch('/api/user/signout',{
-        method:"POST"
-      })
+      const res = await fetch("/api/user/signout", {
+        method: "POST",
+      });
 
-      const data = await res.json()
-      if(!res.ok){
-        console.log(data.message)
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
       } else {
-        dispatch(signOutSuccess())
-
+        dispatch(signOutSuccess());
       }
-      
-    } catch (error) {
-      
-    }
-  }
+    } catch (error) {}
+  };
 
   return (
     <div className="max-w-lg mx-auto p-3 w-full">
@@ -208,15 +205,28 @@ const DashBoardProfile = () => {
         />
         <Button
           type="submit"
+          disabled={loading || imageFileUploading}
           className="bg-gradient-to-r from-sky-600 via-sky-400 to-sky-600"
         >
-          Update
+          {loading ? "Loading..." : "Update"}
         </Button>
+        {currentUser.isAdmin && (
+          <Link to={"/create-post"}>
+            <Button
+              type="button"
+              className="w-full"
+            >
+              Create a post
+            </Button>
+          </Link>
+        )}
       </form>
       <div className="text-orange-700 flex justify-between mt-5">
         {/* <span className="cursor-pointer">Delete Account</span> */}
         <DeleteDialog />
-        <span onClick={handleSignout} className="cursor-pointer">Sign Out</span>
+        <span onClick={handleSignout} className="cursor-pointer">
+          Sign Out
+        </span>
       </div>
       {updateUserSuccess && (
         <AlertDestructive
@@ -232,15 +242,9 @@ const DashBoardProfile = () => {
           title="Error"
         />
       )}
-      {
-        error && (
-          <AlertDestructive
-          description={error}
-          variant="error"
-          title="Error"
-        />
-        )
-      }
+      {error && (
+        <AlertDestructive description={error} variant="error" title="Error" />
+      )}
     </div>
   );
 };
