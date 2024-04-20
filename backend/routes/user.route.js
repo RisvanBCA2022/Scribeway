@@ -9,4 +9,5 @@ router.put('/update/:userId',verifyToken,updateUser)
 router.delete('/delete/:userId',verifyToken,deleteuser)
 router.post('/signout',signout)
 
+
 export default router
