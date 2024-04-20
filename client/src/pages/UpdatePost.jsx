@@ -22,9 +22,11 @@ import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
 const UpdatePost = () => {
+  const {currentUser}=useSelector((state)=>state.user)
   const [file, setFile] = useState(null);
   const [imageUploadProgress, setImageUploadProgress] = useState(null);
   const [imageUploadError, setImageUploadError] = useState(null);
@@ -33,33 +35,28 @@ const UpdatePost = () => {
   const {postId}=useParams()
 
   const navigate=useNavigate()
-
-  useEffect(()=>{
+  useEffect(() => {
     try {
-        const fetchPost = async ()=>{
-            const res = await fetch(`/api/post/getposts?postId=${postId}`)
-            const data = await res.json()
-
-            if(!res.ok){
-                console.log(data.message);
-                setPublishError(data.message)
-                return;
-
-            }
-            if(res.ok){
-                setPublishError(null)
-                setFormData(data.posts[0])
-
-            }
-
+      const fetchPost = async () => {
+        const res = await fetch(`/api/post/getposts?postId=${postId}`);
+        const data = await res.json();
+        console.log(data.posts[0]);
+        if (!res.ok) {
+          console.log(data.message);
+          setPublishError(data.message);
+          return;
         }
-        
-        fetchPost()
+        if (res.ok) {
+          setPublishError(null);
+          setFormData(data.posts[0]);
+        }
+      };
 
+      fetchPost();
     } catch (error) {
-        console.log(error);
+      console.log(error.message);
     }
-  },[postId])
+  }, [postId]);
 
   const handleUploadImage = async () => {
     try {
@@ -99,35 +96,31 @@ const UpdatePost = () => {
     }
   };
 
-  const handleSubmit = async (e)=>{
-    e.preventDefault()
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      const res = await fetch('/api/post/create',{
-        method:"POST",
-        headers:{
-          'Content-Type': 'application/json'
+      const res = await fetch(`/api/post/updatepost/${formData._id}/${currentUser._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData)
-      })
-
-      const data = await res.json()
-
-      if(!res.ok){
-        setPublishError(data.message)
-        return
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setPublishError(data.message);
+        return;
       }
-     
-      if(res.ok){
-        setPublishError(null)
-        navigate(`/post/${data.slug}`)
+
+      if (res.ok) {
+        setPublishError(null);
+        navigate(`/post/${data.slug}`);
       }
-      
     } catch (error) {
-      setPublishError('Something Went Wrong')
+      setPublishError('Something went wrong');
     }
-
-  }
+  };
+  console.log(formData);
   return (
     <div className="p-3 max-w-3xl mx-auto min-h-screen">
       <h1 className="text-center text-3xl my-7 font-semibold">Update post</h1>
@@ -138,12 +131,13 @@ const UpdatePost = () => {
             placeholder="Title"
             required
             id="title"
+            defaultValue={formData.title}
             className="flex-1"
             onChange={(e)=>setFormData({...formData,title:e.target.value})}
           />
          <Select 
   onValueChange={(e)=>setFormData({...formData, category: e})}
-  value={formData.category}
+  defaultValue={formData.category}
 >
   <SelectTrigger className="w-[180px]">
     <SelectValue placeholder="Select a category" />

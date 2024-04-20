@@ -20,7 +20,6 @@ import {
 } from "@/redux/user/userSlice";
 import { AlertDestructive } from "./ErrorAlert";
 import { DeleteDialog } from "./DeleteConfirm";
-import { Link } from "react-router-dom";
 
 const DashBoardProfile = () => {
   const { currentUser, error, loading } = useSelector((state) => state.user);
@@ -165,7 +164,7 @@ const DashBoardProfile = () => {
               styles={{
                 root: {
                   height: "100%",
-                  height: "100%",
+                  width: "100%",
                   position: "absolute",
                   top: 0,
                   left: 0,
@@ -209,24 +208,10 @@ const DashBoardProfile = () => {
         />
         <Button
           type="submit"
-          disabled={loading || imageFileUploading}
           className="bg-gradient-to-r from-sky-600 via-sky-400 to-sky-600"
         >
-          {loading?'Loading...':'Update'}
+          Update
         </Button>
-
-        {
-          currentUser.isAdmin && (
-            <Link to={`/create-post`} >
-            <Button
-            type='button'
-            className='w-full'
-            >
-              Create a post
-            </Button>
-            </Link>
-          )
-        }
       </form>
       <div className="text-orange-700 flex justify-between mt-5">
         {/* <span className="cursor-pointer">Delete Account</span> */}
