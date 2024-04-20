@@ -58,7 +58,7 @@ const PostPage = () => {
         dangerouslySetInnerHTML={{ __html: post && post.content }}
       ></div>
     <div className="max-w-4xl mx-auto w-full">
-        {/* <Calltoaction /> */}
+        <Calltoaction />
     </div>
 
   </main>;
