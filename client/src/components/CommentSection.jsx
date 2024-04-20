@@ -4,14 +4,39 @@ import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
 import { useState } from "react";
+import { AlertDestructive } from "./ErrorAlert";
 
 function CommentSection({ postId }) {
   const { currentUser } = useSelector((state) => state.user);
   const [comment, setComment] = useState("");
+  const [commentError, setCommentError] = useState(null);
 
-  const handleSubmit=async ()=>{
-
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (comment.length > 200) {
+      return;
+    }
+    try {
+      const res = await fetch("/api/comment/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          content: comment,
+          postId,
+          userId: currentUser._id,
+        }),
+      });
+      const data = res.json();
+      if (res.ok) {
+        setComment("");
+        setCommentError(null);
+      }
+    } catch (error) {
+      setCommentError(error.message);
+    }
+  };
   return (
     <div className="max-w-2xl w-full mx-auto p-3">
       {currentUser ? (
@@ -38,7 +63,10 @@ function CommentSection({ postId }) {
         </div>
       )}
       {currentUser && (
-        <form className="border border-blue-900 rounded-md p-3" onSubmit={handleSubmit}>
+        <form
+          className="border border-blue-900 rounded-md p-3"
+          onSubmit={handleSubmit}
+        >
           <Textarea
             placeholder="Type your message here."
             maxlength="200"
@@ -53,6 +81,13 @@ function CommentSection({ postId }) {
               Submit
             </Button>
           </div>
+          {commentError && (
+            <AlertDestructive
+              title="Error"
+              description={commentError}
+              variant="error"
+            />
+          )}
         </form>
       )}
     </div>
