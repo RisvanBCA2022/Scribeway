@@ -110,13 +110,13 @@ const CreatePost = () => {
             placeholder="Title"
             required
             id="title"
-            className="flex-1 bg-gray-800"
+            className="flex-1"
             onChange={(e)=>setFormData({...formData,title:e.target.value})}
           />
          <Select 
   onValueChange={(e)=>setFormData({...formData, category: e})}
 >
-  <SelectTrigger className="w-[180px] bg-gray-800">
+  <SelectTrigger className="w-[180px]">
     <SelectValue placeholder="Select a category" />
   </SelectTrigger>
   <SelectContent>
@@ -134,7 +134,6 @@ const CreatePost = () => {
           <Input
             id="picture"
             type="file"
-            className="dark:bg-gray-800"
             onChange={(e) => setFile(e.target.files[0])}
           />
           <Button onClick={handleUploadImage} type="button" disabled={imageUploadProgress}>
