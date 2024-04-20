@@ -1,6 +1,7 @@
 import DashBoardProfile from "@/components/DashBoardProfile";
 import DashBoardSidebar from "@/components/DashBoardSidebar";
 import DashboardPosts from "@/components/DashboardPosts";
+import Dashboardusers from "@/components/Dashboardusers";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
@@ -24,6 +25,8 @@ const Dashboard = () => {
       {
         tab === 'posts' && <DashboardPosts />
       }
+
+      {tab === 'users' && <Dashboardusers />}
     </div>
   );
 };

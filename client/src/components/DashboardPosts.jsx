@@ -63,7 +63,7 @@ const DashboardPosts = () => {
 
 
   return (
-    <div className="overflow-x-auto w-full">
+    <div className="overflow-x-auto w-full p-3 lg:w-[80%] lg:p-10">
       {currentUser.isAdmin && userPosts.length > 0 ? (
         <>
           <Table>
