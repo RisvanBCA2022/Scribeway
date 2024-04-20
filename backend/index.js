@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import path from 'path';
 import userRoutes from './routes/user.route.js'
 import authRoutes from './routes/authRoutes.js'
+import postRoutes from './routes/postRoute.js'
 
 dotenv.config();
 
@@ -29,6 +30,7 @@ app.listen(3000, () => {
 });
 app.use('/api/auth',authRoutes)
 app.use('/api/user',userRoutes)
+app.use('/api/post',postRoutes)
 app.get('/', (req,res)=>{
     res.json({"message":"API is working"})
 });
