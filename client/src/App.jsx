@@ -14,12 +14,14 @@ import AdminPrivateRoute from "./components/AdminPrivateRoute"
 import CreatePost from "./pages/CreatePost"
 import UpdatePost from "./pages/UpdatePost"
 import PostPage from "./pages/PostPage"
+import ScrollTop from "./components/Scrolltotop"
 
 
 function App() {
   return (
     <ThemeProvider>
     <BrowserRouter>
+      <ScrollTop />
     <Header />
     <Routes>
       <Route path="/" element={<Home />} />

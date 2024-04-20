@@ -1,4 +1,5 @@
 import Calltoaction from "@/components/Calltoaction";
+import CommentSection from "@/components/CommentSection";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
@@ -60,7 +61,7 @@ const PostPage = () => {
     <div className="max-w-4xl mx-auto w-full">
         <Calltoaction />
     </div>
-
+    <CommentSection postId={post._id} />
   </main>;
 };
 
