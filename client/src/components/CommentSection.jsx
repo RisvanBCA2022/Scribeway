@@ -3,13 +3,15 @@ import { Link } from "react-router-dom";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AlertDestructive } from "./ErrorAlert";
+import Comment from "./Comment";
 
 function CommentSection({ postId }) {
   const { currentUser } = useSelector((state) => state.user);
   const [comment, setComment] = useState("");
   const [commentError, setCommentError] = useState(null);
+  const [comments,setComments]=useState([])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,11 +34,30 @@ function CommentSection({ postId }) {
       if (res.ok) {
         setComment("");
         setCommentError(null);
+        setComments([data,...comments])
       }
     } catch (error) {
       setCommentError(error.message);
     }
   };
+console.log(comments);
+  useEffect(()=>{
+    const getComments = async ()=>{
+      try {
+        const res = await fetch(`/api/comment/getpostcomments/${postId}`)
+        const data = await res.json()
+        if(res.ok){
+          setComments(data)
+        }
+        
+      } catch (error) {
+        
+      }
+
+    }
+    getComments()
+
+  },[postId])
   return (
     <div className="max-w-2xl w-full mx-auto p-3">
       {currentUser ? (
@@ -64,7 +85,7 @@ function CommentSection({ postId }) {
       )}
       {currentUser && (
         <form
-          className="border border-blue-900 rounded-md p-3"
+          className="border rounded-md p-3"
           onSubmit={handleSubmit}
         >
           <Textarea
@@ -93,22 +114,14 @@ function CommentSection({ postId }) {
       )}
       <>
       <div class="antialiased mx-auto max-w-screen-sm mt-4">
-  <h3 class="mb-4 text-lg font-semibold dark:text-white text-gray-900">Comments</h3>
+  <h3 class="mb-4 text-lg font-semibold dark:text-white text-gray-900">Comments {comments.length}</h3>
 
   <div class="space-y-4"></div>
-      <div className="flex">
-      <div className="flex-shrink-0 mr-3">
-        <img class="mt-2 rounded-full w-8 h-8 sm:w-10 sm:h-10" src="https://images.unsplash.com/photo-1604426633861-11b2faead63c?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80" alt="" />
-      </div>
-      <div className="flex-1 border rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed">
-        <strong>Sarah</strong> <span class="text-xs text-gray-400">3:34 PM</span>
-        <p class="text-sm">
-          Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
-          sed diam nonumy eirmod tempor invidunt ut labore et dolore
-          magna aliquyam erat, sed diam voluptua.
-        </p>
-      </div>
-    </div>
+  {comments && comments.map((comment,i)=>(
+    <Comment comment={comment} />
+  ))
+    
+  }
     </div>
       </>
     </div>
