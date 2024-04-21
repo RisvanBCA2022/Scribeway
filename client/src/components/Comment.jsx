@@ -1,7 +1,10 @@
+import { ThumbsUp } from "lucide-react";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
-const Comment = ({ comment }) => {
+const Comment = ({ comment, onLike }) => {
+  const {currentUser}=useSelector((state)=>state.user)
   const [user, setUser] = useState({});
 
   console.log(user);
@@ -36,6 +39,17 @@ const Comment = ({ comment }) => {
           </span>
         </div>
         <p class="text-sm">{comment.content}</p>
+        <div className="mt-2">
+          <button type="button" onClick={()=>onLike(comment._id)} className={`text-gray-600 hover:text-blue-500 ${currentUser && comment.likes.includes(currentUser._id) && '!text-blue-500'}`}>
+          <ThumbsUp className="text-sm w-5 h-5" />
+          </button>
+          <p className="text-gray-400">
+          {
+            comment.numberOfLikes > 0 && comment.numberOfLikes + " " +(comment.numberOfLikes === 1 ? "like" : "likes")
+          }
+          </p>
+        
+        </div>
       </div>
     </div>
   );
