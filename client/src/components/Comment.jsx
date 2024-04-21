@@ -4,19 +4,30 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "./ui/alert-dialog";
 
-const Comment = ({ comment, onLike,onEdit }) => {
+const Comment = ({ comment, onLike, onEdit, onDelete }) => {
   const { currentUser } = useSelector((state) => state.user);
   const [user, setUser] = useState({});
-  const [Editing,setEditing]=useState(false)
-  const [editedComment,setEditedComment]=useState(comment.content)
-  console.log(user);
+  const [Editing, setEditing] = useState(false);
+  const [editedComment, setEditedComment] = useState(comment.content);
+  // console.log(user);
   useEffect(() => {
     const getUser = async () => {
       try {
         const res = await fetch(`/api/user/${comment.userId}`);
         const data = await res.json();
-
+        console.log(data);
         if (res.ok) {
           setUser(data);
         }
@@ -25,33 +36,31 @@ const Comment = ({ comment, onLike,onEdit }) => {
     getUser();
   }, [comment]);
 
-  const handleEdit= async ()=>{
-    setEditing(true)
-    setEditedComment(comment.content)
+  const handleEdit = async () => {
+    setEditing(true);
+    setEditedComment(comment.content);
+  };
 
-  }
-
-  const handleSave =async ()=>{
+  const handleSave = async () => {
     try {
-      const res = await fetch(`/api/comment/editcomment/${comment._id}`,{
-        method:'PUT',
-        headers:{
-          'Content-Type': 'application/json'
+      const res = await fetch(`/api/comment/editcomment/${comment._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
         },
-        body:JSON.stringify({
-          content: editedComment
-        })
-      })
-      if(res.ok){
-        setEditing(false)
-        onEdit(comment,editedComment)
+        body: JSON.stringify({
+          content: editedComment,
+        }),
+      });
+      if (res.ok) {
+        setEditing(false);
+        onEdit(comment, editedComment);
       }
-      
     } catch (error) {
       console.log(error.message);
     }
-  }
-
+  };
+console.log(comment);
   return (
     <div className="flex mb-5" key={comment._id}>
       <div className="flex-shrink-0 mr-3">
@@ -69,52 +78,92 @@ const Comment = ({ comment, onLike,onEdit }) => {
             {moment(comment.createdAt).fromNow()}
           </span>
         </div>
-        {Editing?(
+        {Editing ? (
           <>
-          <Textarea
-          className="w-full p-2 text-gray-700 rounded-md resize-none focus:outline focus:bg-gray-100"
-          rows='3'
-          defaultValue={comment.content}
-          onChange={(e)=>setEditedComment(e.target.value)}
-          />
-          <div className="flex justify-end gap-3 text-sm pt-2">
-
-          <Button type='button' variant='outline' onClick={handleSave} >Update</Button>
-          <Button type='button' variant='outline' onClick={()=>setEditing(false)}>Cancel</Button>
-          </div>
+            <Textarea
+              className="w-full p-2 text-gray-700 rounded-md resize-none focus:outline focus:bg-gray-100"
+              rows="3"
+              defaultValue={comment.content}
+              onChange={(e) => setEditedComment(e.target.value)}
+            />
+            <div className="flex justify-end gap-3 text-sm pt-2">
+              <Button type="button" variant="outline" onClick={handleSave}>
+                Update
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setEditing(false)}
+              >
+                Cancel
+              </Button>
+            </div>
           </>
-
-        ):(
+        ) : (
           <>
-        <p class="text-sm">{comment.content}</p>
-        <div className="mt-2">
-          <button
-            type="button"
-            onClick={() => onLike(comment._id)}
-            className={`text-gray-600 hover:text-blue-500 ${
-              currentUser &&
-              comment.likes.includes(currentUser._id) &&
-              "!text-blue-500"
-            }`}
-          >
-            <ThumbsUp className="text-sm w-5 h-5" />
-          </button>
-          <p className="text-gray-400">
-            {comment.numberOfLikes > 0 &&
-              comment.numberOfLikes +
-                " " +
-                (comment.numberOfLikes === 1 ? "like" : "likes")}
-          </p>
-          {currentUser && currentUser._id === comment.userId && (
-            <button
-              onClick={handleEdit}
-              type="button"
-              className="text-gray-400 hover:text-blue-500"
-            >
-              Edit
-            </button>
-          )}
-        </div>
+            <p class="text-sm">{comment.content}</p>
+            <div className="mt-2">
+              <button
+                type="button"
+                onClick={() => onLike(comment._id)}
+                className={`text-gray-600 hover:text-blue-500 ${
+                  currentUser && comment.likes &&
+                  comment.likes.includes(currentUser._id) &&
+                  "!text-blue-500"
+                }`}
+              >
+                <ThumbsUp className="text-sm w-5 h-5" />
+              </button>
+              <p className="text-gray-400">
+                {comment.numberOfLikes > 0 &&
+                  comment.numberOfLikes +
+                    " " +
+                    (comment.numberOfLikes === 1 ? "like" : "likes")}
+              </p>
+              {currentUser && currentUser._id === comment.userId && (
+                <div className="flex gap-4">
+                  <button
+                    onClick={handleEdit}
+                    type="button"
+                    className="text-gray-400 hover:text-blue-500"
+                  >
+                    Edit
+                  </button>
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <button
+                        // onClick={()=>onDelete(comment._id)}
+                        type="button"
+                        className="text-gray-400 hover:text-red-500"
+                      >
+                        Delete
+                      </button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>
+                          Are you absolutely sure?
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                          This action cannot be undone. This will permanently
+                          delete your post and remove your data from our
+                          servers.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                          className="text-red-50 bg-red-600"
+                          onClick={()=>onDelete(comment._id)}
+                        >
+                          Delete
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                </div>
+              )}
+            </div>
           </>
         )}
       </div>

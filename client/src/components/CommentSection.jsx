@@ -31,7 +31,7 @@ function CommentSection({ postId }) {
           userId: currentUser._id,
         }),
       });
-      const data = res.json();
+      const data = await res.json();
       if (res.ok) {
         setComment("");
         setCommentError(null);
@@ -42,6 +42,7 @@ function CommentSection({ postId }) {
     }
   };
   console.log(comments);
+
   useEffect(() => {
     const getComments = async () => {
       try {
@@ -88,6 +89,26 @@ function CommentSection({ postId }) {
       comments.map((c)=>c._id === comment._id ? {...c, content: editedContent}:c)
     )
   }
+
+  const handleDelete = async (commentId)=>{
+    try {
+      if(!currentUser){
+        navigate('/sign-in')
+        return;
+      }
+      const res = await fetch(`/api/comment/deletecomment/${commentId}`,{
+        method: 'DELETE'
+      })
+      if(res.ok){
+        const data = await res.json()
+      setComments(comments.filter((comment)=>comment._id !== commentId))
+      }
+      
+    } catch (error) {
+      console.log(error);
+    }
+
+  }
   return (
     <div className="max-w-2xl w-full mx-auto p-3">
       {currentUser ? (
@@ -117,7 +138,7 @@ function CommentSection({ postId }) {
         <form className="border rounded-md p-3" onSubmit={handleSubmit}>
           <Textarea
             placeholder="Type your message here."
-            maxlength="200"
+            maxLength="200"
             rows="3"
             onChange={(e) => setComment(e.target.value)}
           />
@@ -146,7 +167,7 @@ function CommentSection({ postId }) {
 
           <div class="space-y-4"></div>
           {comments &&
-            comments.map((comment, i) => <Comment  onLike={handleLike} comment={comment} onEdit={handleEdit} />)}
+            comments.map((comment, i) => <Comment  onLike={handleLike} comment={comment} onEdit={handleEdit} onDelete={handleDelete} />)}
         </div>
       </>
     </div>

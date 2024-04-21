@@ -20,7 +20,6 @@ const DashboardPosts = () => {
   const [postIdToDelete, setPostIdToDelete] = useState('');
 
 
-  console.log(userPosts);
   useEffect(() => {
     const fetchPosts = async () => {
       try {
