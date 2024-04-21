@@ -83,6 +83,11 @@ function CommentSection({ postId }) {
     }
   };
 
+  const handleEdit = async (comment,editedContent)=>{
+    setComments(
+      comments.map((c)=>c._id === comment._id ? {...c, content: editedContent}:c)
+    )
+  }
   return (
     <div className="max-w-2xl w-full mx-auto p-3">
       {currentUser ? (
@@ -141,7 +146,7 @@ function CommentSection({ postId }) {
 
           <div class="space-y-4"></div>
           {comments &&
-            comments.map((comment, i) => <Comment  onLike={handleLike} comment={comment} />)}
+            comments.map((comment, i) => <Comment  onLike={handleLike} comment={comment} onEdit={handleEdit} />)}
         </div>
       </>
     </div>

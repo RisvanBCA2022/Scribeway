@@ -2,11 +2,14 @@ import { ThumbsUp } from "lucide-react";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { Textarea } from "./ui/textarea";
+import { Button } from "./ui/button";
 
-const Comment = ({ comment, onLike }) => {
-  const {currentUser}=useSelector((state)=>state.user)
+const Comment = ({ comment, onLike,onEdit }) => {
+  const { currentUser } = useSelector((state) => state.user);
   const [user, setUser] = useState({});
-
+  const [Editing,setEditing]=useState(false)
+  const [editedComment,setEditedComment]=useState(comment.content)
   console.log(user);
   useEffect(() => {
     const getUser = async () => {
@@ -21,11 +24,39 @@ const Comment = ({ comment, onLike }) => {
     };
     getUser();
   }, [comment]);
+
+  const handleEdit= async ()=>{
+    setEditing(true)
+    setEditedComment(comment.content)
+
+  }
+
+  const handleSave =async ()=>{
+    try {
+      const res = await fetch(`/api/comment/editcomment/${comment._id}`,{
+        method:'PUT',
+        headers:{
+          'Content-Type': 'application/json'
+        },
+        body:JSON.stringify({
+          content: editedComment
+        })
+      })
+      if(res.ok){
+        setEditing(false)
+        onEdit(comment,editedComment)
+      }
+      
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
   return (
     <div className="flex mb-5" key={comment._id}>
       <div className="flex-shrink-0 mr-3">
         <img
-          class="mt-2 rounded-full w-8 h-8 sm:w-10 sm:h-10 object-cover"
+          className="mt-2 rounded-full w-8 h-8 sm:w-10 sm:h-10 object-cover"
           src={user.profilePicture}
           alt={user.username}
         />
@@ -38,18 +69,54 @@ const Comment = ({ comment, onLike }) => {
             {moment(comment.createdAt).fromNow()}
           </span>
         </div>
+        {Editing?(
+          <>
+          <Textarea
+          className="w-full p-2 text-gray-700 rounded-md resize-none focus:outline focus:bg-gray-100"
+          rows='3'
+          defaultValue={comment.content}
+          onChange={(e)=>setEditedComment(e.target.value)}
+          />
+          <div className="flex justify-end gap-3 text-sm pt-2">
+
+          <Button type='button' variant='outline' onClick={handleSave} >Update</Button>
+          <Button type='button' variant='outline' onClick={()=>setEditing(false)}>Cancel</Button>
+          </div>
+          </>
+
+        ):(
+          <>
         <p class="text-sm">{comment.content}</p>
         <div className="mt-2">
-          <button type="button" onClick={()=>onLike(comment._id)} className={`text-gray-600 hover:text-blue-500 ${currentUser && comment.likes.includes(currentUser._id) && '!text-blue-500'}`}>
-          <ThumbsUp className="text-sm w-5 h-5" />
+          <button
+            type="button"
+            onClick={() => onLike(comment._id)}
+            className={`text-gray-600 hover:text-blue-500 ${
+              currentUser &&
+              comment.likes.includes(currentUser._id) &&
+              "!text-blue-500"
+            }`}
+          >
+            <ThumbsUp className="text-sm w-5 h-5" />
           </button>
           <p className="text-gray-400">
-          {
-            comment.numberOfLikes > 0 && comment.numberOfLikes + " " +(comment.numberOfLikes === 1 ? "like" : "likes")
-          }
+            {comment.numberOfLikes > 0 &&
+              comment.numberOfLikes +
+                " " +
+                (comment.numberOfLikes === 1 ? "like" : "likes")}
           </p>
-        
+          {currentUser && currentUser._id === comment.userId && (
+            <button
+              onClick={handleEdit}
+              type="button"
+              className="text-gray-400 hover:text-blue-500"
+            >
+              Edit
+            </button>
+          )}
         </div>
+          </>
+        )}
       </div>
     </div>
   );
