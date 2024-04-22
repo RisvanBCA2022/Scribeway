@@ -1,5 +1,6 @@
 import DashBoardProfile from "@/components/DashBoardProfile";
 import DashBoardSidebar from "@/components/DashBoardSidebar";
+import DashboardAnalytics from "@/components/DashboardAnalytics";
 import DashboardComments from "@/components/DashboardComments";
 import DashboardPosts from "@/components/DashboardPosts";
 import Dashboardusers from "@/components/Dashboardusers";
@@ -17,7 +18,7 @@ const Dashboard = () => {
   }, [location.search]);
 
   return (
-    <div className="max-h-screen flex flex-col sm:flex-row ">
+    <div className="min-h-screen flex flex-col sm:flex-row ">
       <div className="md:w-56">
         <DashBoardSidebar />
       </div>
@@ -28,6 +29,9 @@ const Dashboard = () => {
       {tab === "users" && <Dashboardusers />}
 
       {tab === "comments" && <DashboardComments />}
+
+      {tab === "dashboard" && <DashboardAnalytics />}
+
     </div>
   );
 };
