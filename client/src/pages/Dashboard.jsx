@@ -1,5 +1,6 @@
 import DashBoardProfile from "@/components/DashBoardProfile";
 import DashBoardSidebar from "@/components/DashBoardSidebar";
+import DashboardComments from "@/components/DashboardComments";
 import DashboardPosts from "@/components/DashboardPosts";
 import Dashboardusers from "@/components/Dashboardusers";
 import { useEffect, useState } from "react";
@@ -22,11 +23,11 @@ const Dashboard = () => {
       </div>
       {tab === "profile" && <DashBoardProfile />}
 
-      {
-        tab === 'posts' && <DashboardPosts />
-      }
+      {tab === "posts" && <DashboardPosts />}
 
-      {tab === 'users' && <Dashboardusers />}
+      {tab === "users" && <Dashboardusers />}
+
+      {tab === "comments" && <DashboardComments />}
     </div>
   );
 };

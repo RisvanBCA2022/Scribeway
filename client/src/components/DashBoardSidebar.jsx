@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { signOutSuccess } from "@/redux/user/userSlice";
-import { CircleUserRound, LogOut, Rss, Users } from "lucide-react";
+import { CircleUserRound, LogOut, MessageCircleMore, Rss, Users } from "lucide-react";
 
 const Sidebar = () => {
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
@@ -56,6 +56,7 @@ const Sidebar = () => {
           <span className="mx-4 font-medium">Profile</span>
         </Link>
         {currentUser.isAdmin && (
+          <>
         <Link
           to="/dashboard?tab=posts"
           className={`flex items-center px-4 py-2 mt-5  ${
@@ -65,6 +66,16 @@ const Sidebar = () => {
           <Rss className="w-5 h-5" />
           <span className="mx-4 font-medium">Posts</span>
         </Link>
+        <Link
+          to="/dashboard?tab=comments"
+          className={`flex items-center px-4 py-2 mt-5  ${
+            tab === "posts" ? "bg-gray-700 text-white" : "hover:bg-gray-600"
+          } dark:text-gray-200 transition-colors duration-200 transform rounded-md`}
+        >
+          <MessageCircleMore className="w-5 h-5" />
+          <span className="mx-4 font-medium">Comments</span>
+        </Link>
+          </>
         )}
              {currentUser.isAdmin && (
         <Link
