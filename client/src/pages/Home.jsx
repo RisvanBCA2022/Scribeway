@@ -1,22 +1,26 @@
+import Calltoaction from '@/components/Calltoaction'
+import PostCard from '@/components/PostCard'
 import { Button } from '@/components/ui/button'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 const Home = () => {
-  const [post, setPosts]=useState([])
+  const [posts, setPosts]=useState([])
 
   useEffect(()=>{
     const fetchPosts = async ()=>{
       const res = await fetch('/api/post/getposts')
-
+      const data = await res.json()
+      setPosts(data.posts)
     }
+    fetchPosts()
   },[])
 
   return (
-    <>
+    <div>
     <section
       id="home"
-      className="relative z-10 overflow-hidden dark:bg-gray-950 dark:text-slate-50 bg-white pb-16 pt-[120px] dark:bg-gray-dark md:pb-[120px] md:pt-[150px] xl:pb-[160px] xl:pt-[180px] 2xl:pb-[200px] 2xl:pt-[210px]"
+      className="relative h-screen z-10 overflow-hidden dark:bg-gray-950 dark:text-slate-50 bg-white pb-16 pt-[120px] dark:bg-gray-dark md:pb-[120px] md:pt-[150px] xl:pb-[160px] xl:pt-[180px] 2xl:pb-[200px] 2xl:pt-[210px]"
     >
       <div className="container">
         <div className="-mx-4 flex flex-wrap">
@@ -26,15 +30,12 @@ const Home = () => {
                 Welcome to Scribeway
               </h1>
               <p className="mb-12 text-base !leading-relaxed text-body-color dark:text-body-color-dark sm:text-lg md:text-xl">
-                Startup is free Next.js template for startups and SaaS
-                business websites comes with all the essential pages,
-                components, and sections you need to launch a complete
-                business website, built-with Next 13.x and Tailwind CSS.
+              Every great writer was once a beginner. Start blogging today and let your words pave the path to your journey as a writer, sharing your thoughts, experiences, and insights with the world!.
               </p>
               <div className="flex flex-col items-center justify-center space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
                 <Link
                   to="/"
-                  className="rounded-sm bg-primary px-8 py-4 text-base font-semibold dark:text-gray-800 dark:bg-gray-50 text-white duration-300 ease-in-out hover:bg-primary/80"
+                  className="rounded-sm bg-primary px-8 py-4 text-base font-semibold dark:text-gray-800 dark:bg-gray-50 text-[#4A6CF7] duration-300 ease-in-out hover:bg-primary/80"
                 >
                    Get Started
                 </Link>
@@ -285,8 +286,27 @@ const Home = () => {
           </defs>
         </svg>
       </div>
+      
     </section>
-  </>
+    <div className='px-10'>
+      <Calltoaction />
+    </div>
+    <div className='max-2-6xl justify-center items-end p-3 flex flex-col gap-8 py-7'>{
+        posts && posts.length >0 &&(
+          <div className=''>
+            <h2 className='text-4xl font-semibold text-center'>Recent Posts</h2>
+            <div className='flex flex-wrap gap-4 justify-center pt-16'>
+              {
+                posts.map((post)=>(
+                  <PostCard post={post} />
+                ))
+              }
+            </div>
+          </div>
+        )
+      }
+      </div>
+  </div>
   )
 }
 

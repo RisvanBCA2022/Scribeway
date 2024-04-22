@@ -25,7 +25,7 @@ const Calltoaction = () => {
             </div>
         </div>
     </div>
-    <img src="https://wallpapercave.com/wp/wp9355881.jpg" className="absolute w-1/3 object-cover top-0 right-0 hidden h-full max-w-1/4 lg:flex lg:justify-end"/>
+    <img src="https://st2.depositphotos.com/4107269/7704/i/450/depositphotos_77040729-stock-photo-vacation-entertainment-concept.jpg" className="absolute w-1/3 object-cover top-0 right-0 hidden h-full max-w-1/4 lg:flex lg:justify-end"/>
 </div>
 
   )
