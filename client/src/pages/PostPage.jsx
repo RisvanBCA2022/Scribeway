@@ -1,5 +1,6 @@
 import Calltoaction from "@/components/Calltoaction";
 import CommentSection from "@/components/CommentSection";
+import PostCard from "@/components/PostCard";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
@@ -9,6 +10,7 @@ const PostPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [post, setPost] = useState(null);
+  const [recentPost,setRecentPost]=useState(null)
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -36,6 +38,25 @@ const PostPage = () => {
     fetchPost();
   }, [postSlug]);
   
+  useEffect(()=>{
+    try {
+      const fetchRecentPost= async ()=>{
+        const res = await fetch(`/api/post/getposts?limit=3`)
+        const data = await res.json()
+        console.log(data);
+        if(res.ok){
+          setRecentPost(data.posts)
+        }
+
+      }
+      fetchRecentPost()
+      
+    } catch (error) {
+      console.log(error);
+    }
+  },[])
+  console.log(recentPost);
+
   if (loading)
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -62,6 +83,14 @@ const PostPage = () => {
         <Calltoaction />
     </div>
     <CommentSection postId={post._id} />
+    <div className="flex flex-col justify-center items-center mb-5">
+      <h1 className="text-xl mt-5">Recent Articles</h1>
+      <div className="flex gap-6 mt-6 flex-col md:flex-row lg:flex-row">
+        { recentPost && (recentPost.map((post)=>(
+          <PostCard key={post._id} post={post} />
+        )))}
+      </div>
+    </div>
   </main>;
 };
 

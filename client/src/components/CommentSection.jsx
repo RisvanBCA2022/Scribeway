@@ -41,7 +41,6 @@ function CommentSection({ postId }) {
       setCommentError(error.message);
     }
   };
-  console.log(comments);
 
   useEffect(() => {
     const getComments = async () => {
@@ -160,14 +159,14 @@ function CommentSection({ postId }) {
         </form>
       )}
       <>
-        <div class="antialiased mx-auto max-w-screen-sm mt-4">
-          <h3 class="mb-4 text-lg font-semibold dark:text-white text-gray-900">
+        <div className="antialiased mx-auto max-w-screen-sm mt-4">
+          <h3 className="mb-4 text-lg font-semibold dark:text-white text-gray-900">
             Comments {comments.length}
           </h3>
 
-          <div class="space-y-4"></div>
+          <div className="space-y-4"></div>
           {comments &&
-            comments.map((comment, i) => <Comment  onLike={handleLike} comment={comment} onEdit={handleEdit} onDelete={handleDelete} />)}
+            comments.map((comment, i) => <Comment key={comment._id}  onLike={handleLike} comment={comment} onEdit={handleEdit} onDelete={handleDelete} />)}
         </div>
       </>
     </div>

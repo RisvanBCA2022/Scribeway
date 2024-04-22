@@ -27,7 +27,6 @@ const Comment = ({ comment, onLike, onEdit, onDelete }) => {
       try {
         const res = await fetch(`/api/user/${comment.userId}`);
         const data = await res.json();
-        console.log(data);
         if (res.ok) {
           setUser(data);
         }
@@ -60,9 +59,8 @@ const Comment = ({ comment, onLike, onEdit, onDelete }) => {
       console.log(error.message);
     }
   };
-console.log(comment);
   return (
-    <div className="flex mb-5" key={comment._id}>
+    <div className="flex mb-5">
       <div className="flex-shrink-0 mr-3">
         <img
           className="mt-2 rounded-full w-8 h-8 sm:w-10 sm:h-10 object-cover"
@@ -101,7 +99,7 @@ console.log(comment);
           </>
         ) : (
           <>
-            <p class="text-sm">{comment.content}</p>
+            <p className="text-sm">{comment.content}</p>
             <div className="mt-2">
               <button
                 type="button"

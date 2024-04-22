@@ -57,7 +57,7 @@ const Dashboardusers = () => {
   };
 
   return (
-    <div className="overflow-x-auto w-full p-3 lg:w-[80%] lg:p-10">
+    <div className="overflow-x-auto w-full p-3 m-4 rounded-md lg:w-[80%] lg:p-10 bg-gray-800">
       {currentUser.isAdmin && users.length > 0 ? (
         <>
           <Table>
