@@ -39,7 +39,7 @@ function OAuth() {
     <div className="flex justify-center space-x-4 mt-4">
       <Button
         onClick={handleGoogleClick}
-        className="flex w-full items-center justify-center border-solid border-2 border-zinc-500 bg-white dark:bg-slate-600 dark:text-white text-gray-700 hover:bg-gray-50"
+        className="flex w-full items-center justify-center border-solid border-2 border-blue-500 dark:bg-slate-100 dark:text-slate-950 text-gray-100 hover:bg-gray-50"
       >
         <ChromeIcon className="h-5 w-5 text-red-500" />
         <span className="ml-2">Google</span>

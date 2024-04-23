@@ -7,6 +7,7 @@ import { ModeToggle } from "./mode-toggle";
 import { useSelector } from "react-redux";
 import { DropdownMenu } from "./ui/dropdown-menu";
 import { DropdownMenuCheckboxes } from "./UserDropDown";
+import { Rss } from "lucide-react";
 
 const Navbar = () => {
   const {currentUser}=useSelector((state)=>state.user)
@@ -37,16 +38,17 @@ console.log(searchTerm);
 
   return (
     <header className="flex items-center justify-around h-16 px-4 md:px-6 border-b border-gray-300 dark:border-gray-800">
-      <Link className="flex items-center gap-2 text-lg font-semibold" to="/">
+      <Link className="flex items-center justify-center gap-2 lg:text-lg md:text-lg text-xs font-semibold" to="/">
+      {/* <Rss /> */}
         <span className="px-2 py-1 bg-gradient-to-r from-slate-700 via-slate-800 to-slate-950 rounded-lg text-white dark:from-slate-100 dark:via-slate-300 dark:to-slate-400 dark:text-slate-800">
           Sribeways
         </span>{" "}
       </Link>
-      <div>
-      <form className="flex-1 justify-start relative max-[600px]:w-1"  onSubmit={handleSubmit}>
+      <div className="w-[200px]">
+      <form className="flex-1 justify-start relative"  onSubmit={handleSubmit}>
           <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 dark:text-gray-400" />
           <Input
-            className="pl-10 pr-4 py-2 rounded-md bg-gray-100 dark:bg-gray-900 dark:text-gray-200 focus:outline-none focus:ring-1 focus:ring-gray-500 dark:focus:ring-gray-400 w-full max-w-[200px] md:max-w-[300px]"
+            className="pl-10 pr-4 py-2 lg:w-96 rounded-md bg-gray-100 dark:bg-gray-900 dark:text-gray-200 focus:outline-none focus:ring-1 focus:ring-gray-500 dark:focus:ring-gray-400 w-full max-w-[200px] md:max-w-[300px]"
             placeholder="Search..."
             type="text"
             value={searchTerm}
@@ -64,7 +66,7 @@ console.log(searchTerm);
           >
             Home
           </Link>
-          <Link
+          {/* <Link
             className={`text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 ${path==='/about'?'font-semibold':''}`}
             to="/about"
           >
@@ -75,7 +77,7 @@ console.log(searchTerm);
             to="/projects"
           >
             Projects
-          </Link>
+          </Link> */}
         </nav>
         <div className="flex items-center gap-4">
           <ModeToggle />
@@ -85,7 +87,7 @@ console.log(searchTerm);
               <DropdownMenuCheckboxes />
             ):(
               
-       <Button asChild>
+       <Button asChild className='text-white bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-full text-sm px-5 py-2.5 text-center'>
         <Link to="/sign-up">
           Sign Up
         </Link>
@@ -108,7 +110,7 @@ console.log(searchTerm);
               >
                 Home
               </Link>
-              <Link
+              {/* <Link
                 className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200"
                 to="/about"
               >
@@ -119,7 +121,7 @@ console.log(searchTerm);
                 to="/projects"
               >
                 Projects
-              </Link>
+              </Link> */}
               
             </div>
           </SheetContent>

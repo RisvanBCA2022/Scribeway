@@ -7,6 +7,7 @@ import { signInSuccess,signInFailure,signInStart } from "@/redux/user/userSlice"
 import { useDispatch,useSelector } from "react-redux";
 import OAuth from "@/components/OAuth";
 import { PencilLineIcon } from "@/assets/Svgs";
+import { KeyRound } from "lucide-react";
 
 export default function Signin() {
   const [email, setEmail] = useState("");
@@ -58,7 +59,7 @@ export default function Signin() {
     <div className="flex max-h-screen items-center justify-center bg-gray-100 dark:bg-slate-950 p-4 mt-16">
       <div className="w-full max-w-md space-y-8">
         <div className="flex justify-center">
-          <PencilLineIcon className="h-12 w-12 dark:text-slate-50" />
+          <KeyRound className="h-12 w-12 dark:text-slate-50" />
         </div>
         <div className="rounded-md bg-white dark:bg-slate-900 p-8 shadow-sm">
           <h2 className="text-center text-3xl font-bold text-gray-900 dark:text-gray-50">
@@ -98,7 +99,7 @@ export default function Signin() {
               </div>
             </div>
             <div>
-              <Button className="w-full dark:bg-indigo-50 bg-indigo-700 text-white dark:text-black" disabled={loading}>
+              <Button className="w-full dark:bg-indigo-50 bg-gradient-to-r from-blue-800 via-blue-500 to-blue-800 text-white " disabled={loading}>
                 {loading?(
                   <span>
                   <svg aria-hidden="true" role="status" className="inline mr-3 w-4 h-4 text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -44,7 +44,7 @@ export function DropdownMenuCheckboxes() {
       <DropdownMenuTrigger asChild>
         <Avatar>
           <AvatarImage src={currentUser.profilePicture} alt="profilePicture" />
-          <AvatarFallback>CN</AvatarFallback>
+          <AvatarFallback>{currentUser.username}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">

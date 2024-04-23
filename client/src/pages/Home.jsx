@@ -288,9 +288,9 @@ const Home = () => {
           </svg>
         </div>
       </section>
-      <div className="px-10">
+      {/* <div className="px-10">
         <Calltoaction />
-      </div>
+      </div> */}
       <div className="max-2-6xl justify-center items-end p-3 flex flex-col flex-wrap gap-8 py-7">
         {posts && posts.length > 0 && (
           <div className="flex flex-wrap items-center justify-center">

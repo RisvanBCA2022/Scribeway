@@ -64,7 +64,7 @@ const Search = () => {
     }
   };
 
-  const handleSubmt= async (e)=>{
+  const handleSubmit= (e)=>{
     e.preventDefault()
     const urlParams = new URLSearchParams(location.search);
     urlParams.set('searchTerm',sidebarData.searchTerm)
@@ -75,7 +75,7 @@ const Search = () => {
     navigate(`/search?${searchQuery}`)
   }
 
-  const handleSubmit= async ()=>{
+  const handleShowMore= async ()=>{
     const numberOfPosts=posts.length;
     const startIndex=numberOfPosts;
     const urlParams = new URLSearchParams(location.search)

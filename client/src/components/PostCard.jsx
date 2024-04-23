@@ -10,7 +10,7 @@ const PostCard = ({post}) => {
       </Link>
       <div className="p-5">
         <Link to={`/posts/${post.slug}`}>
-          <h5 className="text-gray-900 font-bold text-2xl tracking-tight mb-2 dark:text-white">{post.title}</h5>
+          <h5 className="text-gray-900 font-bold text-2xl tracking-tight mb-2 dark:text-white line-clamp-2">{post.title}</h5>
         </Link>
         <p className="font-normal text-gray-700 mb-3 dark:text-gray-400"></p>
         <Link to={`/posts/${post.slug}`} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
