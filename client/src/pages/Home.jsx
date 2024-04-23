@@ -37,7 +37,7 @@ const Home = () => {
                 <div className="flex flex-col items-center justify-center space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
                   <Link
                     to="/"
-                    className="rounded-sm bg-primary px-8 py-4 text-base font-semibold dark:text-gray-800 dark:bg-gray-50 text-[#4A6CF7] duration-300 ease-in-out hover:bg-primary/80"
+                    className="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border hover:border-blue-600 hover:text-blue-600 hover:bg-blue-50 bg-blue-600 text-white disabled:opacity-50 disabled:pointer-events-none"
                   >
                     Get Started
                   </Link>
@@ -288,10 +288,10 @@ const Home = () => {
           </svg>
         </div>
       </section>
-      {/* <div className="px-10">
+      <div className="px-10">
         <Calltoaction />
-      </div> */}
-      <div className="max-2-6xl items-center justify-center p-3 flex flex-col flex-wrap gap-8 py-7">
+      </div>
+      <div className="max-2-6xl items-center justify-center p-3 flex flex-col flex-wrap gap-8 py-7" id="recentposts">
         {posts && posts.length > 0 && (
           <div className="">
             <h2 className="text-4xl font-semibold text-center">Recent Posts</h2>
