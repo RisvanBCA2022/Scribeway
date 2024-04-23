@@ -29,9 +29,9 @@ const CreatePost = () => {
   const [imageUploadProgress, setImageUploadProgress] = useState(null);
   const [imageUploadError, setImageUploadError] = useState(null);
   const [formData, setFormData] = useState({});
-  const [publishError,setPublishError]=useState(null)
+  const [publishError, setPublishError] = useState(null);
 
-  const navigate=useNavigate()
+  const navigate = useNavigate();
 
   const handleUploadImage = async () => {
     try {
@@ -71,35 +71,33 @@ const CreatePost = () => {
     }
   };
 
-  const handleSubmit = async (e)=>{
-    e.preventDefault()
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
     try {
-      const res = await fetch('/api/post/create',{
-        method:"POST",
-        headers:{
-          'Content-Type': 'application/json'
+      const res = await fetch("/api/post/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData)
-      })
+        body: JSON.stringify(formData),
+      });
 
-      const data = await res.json()
+      const data = await res.json();
 
-      if(!res.ok){
-        setPublishError(data.message)
-        return
+      if (!res.ok) {
+        setPublishError(data.message);
+        return;
       }
-     
-      if(res.ok){
-        setPublishError(null)
-        navigate(`/posts/${data.slug}`)
+
+      if (res.ok) {
+        setPublishError(null);
+        navigate(`/posts/${data.slug}`);
       }
-      
     } catch (error) {
-      setPublishError('Something Went Wrong')
+      setPublishError("Something Went Wrong");
     }
-
-  }
+  };
   return (
     <div className="p-3 max-w-3xl mx-auto min-h-screen">
       <h1 className="text-center text-3xl my-7 font-semibold">Create a post</h1>
@@ -111,62 +109,85 @@ const CreatePost = () => {
             required
             id="title"
             className="flex-1"
-            onChange={(e)=>setFormData({...formData,title:e.target.value})}
+            onChange={(e) =>
+              setFormData({ ...formData, title: e.target.value })
+            }
           />
-         <Select 
-  onValueChange={(e)=>setFormData({...formData, category: e})}
->
-  <SelectTrigger className="w-[180px]">
-    <SelectValue placeholder="Select a category" />
-  </SelectTrigger>
-  <SelectContent>
-    <SelectGroup>
-      <SelectItem value="javascript">JavaScript</SelectItem>
-      <SelectItem value="reactjs">React.js</SelectItem>
-      <SelectItem value="nextjs">Next.js</SelectItem>
-      <SelectItem value="nodejs">Nodejs</SelectItem>
-      <SelectItem value="mongodb">MongoDB</SelectItem>
-    </SelectGroup>
-  </SelectContent>
-</Select> 
+          <Select
+            onValueChange={(e) => setFormData({ ...formData, category: e })}
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Select a category" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem value="javascript">JavaScript</SelectItem>
+                <SelectItem value="reactjs">React.js</SelectItem>
+                <SelectItem value="nextjs">Next.js</SelectItem>
+                <SelectItem value="nodejs">Nodejs</SelectItem>
+                <SelectItem value="mongodb">MongoDB</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
         </div>
         <div className="flex gap-4 items-center justify-between">
           <Input
+            className="text-sm text-stone-500 dark:file:text-stone-50"
             id="picture"
             type="file"
             onChange={(e) => setFile(e.target.files[0])}
           />
-          <Button onClick={handleUploadImage} type="button" disabled={imageUploadProgress} className='text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center'>
-            {
-              imageUploadProgress?
+          <Button
+            onClick={handleUploadImage}
+            type="button"
+            disabled={imageUploadProgress}
+            className="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+          >
+            {imageUploadProgress ? (
               <div className="w-9 h-9">
-                <CircularProgressbar value={imageUploadProgress} text={`${imageUploadProgress || 0}%`} />
-              </div>:'Upload Image'
-            }
+                <CircularProgressbar
+                  value={imageUploadProgress}
+                  text={`${imageUploadProgress || 0}%`}
+                />
+              </div>
+            ) : (
+              "Upload Image"
+            )}
           </Button>
         </div>
         {imageUploadError && (
-        <AlertDestructive variant="error" title="Error" description={imageUploadError} />
+          <AlertDestructive
+            variant="error"
+            title="Error"
+            description={imageUploadError}
+          />
         )}
 
         {formData.image && (
-          <img src={formData.image} alt="upload" className="w-full h-72 object-cover" />
-          )}
+          <img
+            src={formData.image}
+            alt="upload"
+            className="w-full h-72 object-cover"
+          />
+        )}
 
         <ReactQuill
           theme="snow"
           placeholder="Write something..."
           className="h-72 mb-12 dark:text-whtie"
           required
-          onChange={(value)=>{
-            setFormData({...formData,content:value})
+          onChange={(value) => {
+            setFormData({ ...formData, content: value });
           }}
         />
         <Button type="submit">Publish</Button>
-        {
-          publishError && <AlertDestructive variant='error' description={publishError} title='Error' />
-          
-        }
+        {publishError && (
+          <AlertDestructive
+            variant="error"
+            description={publishError}
+            title="Error"
+          />
+        )}
       </form>
     </div>
   );
