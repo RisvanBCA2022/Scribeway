@@ -75,11 +75,29 @@ const Search = () => {
     navigate(`/search?${searchQuery}`)
   }
 
-  console.log(sidebarData);
+  const handleSubmit= async ()=>{
+    const numberOfPosts=posts.length;
+    const startIndex=numberOfPosts;
+    const urlParams = new URLSearchParams(location.search)
+    urlParams.set('startIndex',startIndex);
+    const searchQuery=urlParams.toString();
+    const res = await fetch(`/api/post/getPosts?${searchQuery}`)
+    if(!res.ok){
+        return;
+    }
+    setPosts([...posts,...data.posts])
+    if(data.posts.length===9){
+        setShowMore(true)
+    }
+    else{
+        setShowMore(false)
+    }
+  }
+
   return (
     <div className="flex flex-col md:flex-row">
       <div className="p-7 border-b md:border-r md:min-h-screen border-gray-500">
-        <form onSubmit={handleSubmt}>
+        <form onSubmit={handleSubmit}>
           <div className="flex items-center gap-2 mb-4">
             <label className='whitespace-nowrap font-semibold'>
               Search Term:
