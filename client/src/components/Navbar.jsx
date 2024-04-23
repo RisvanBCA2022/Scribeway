@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -11,25 +11,46 @@ import { DropdownMenuCheckboxes } from "./UserDropDown";
 const Navbar = () => {
   const {currentUser}=useSelector((state)=>state.user)
   const path=useLocation().pathname
+  const location = useLocation()
   const navigate=useNavigate()
 
+  const [searchTerm,setSearchTerm]=useState('')
+console.log(searchTerm);
+  useEffect(()=>{
+    const urlParams = new URLSearchParams(location.search);
+    const searchTermFromUrl = urlParams.get('searchTerm');
+    if (searchTermFromUrl){
+      setSearchTerm(searchTermFromUrl)
+    }
+
+  },[location.search])
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const urlParams = new URLSearchParams(location.search);
+    urlParams.set('searchTerm', searchTerm);
+    const searchQuery = urlParams.toString();
+    navigate(`/search?${searchQuery}`);
+  };
 
   
 
   return (
     <header className="flex items-center justify-around h-16 px-4 md:px-6 border-b border-gray-300 dark:border-gray-800">
-      <Link className="flex items-center gap-2 text-lg font-semibold" href="#">
+      <Link className="flex items-center gap-2 text-lg font-semibold" to="/">
         <span className="px-2 py-1 bg-gradient-to-r from-slate-700 via-slate-800 to-slate-950 rounded-lg text-white dark:from-slate-100 dark:via-slate-300 dark:to-slate-400 dark:text-slate-800">
           Sribeways
         </span>{" "}
       </Link>
       <div>
-      <form className="flex-1 justify-start relative max-[600px]:w-1">
-          <SearchIcon className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 dark:text-gray-400" />
+      <form className="flex-1 justify-start relative max-[600px]:w-1"  onSubmit={handleSubmit}>
+          <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 dark:text-gray-400" />
           <Input
             className="pl-10 pr-4 py-2 rounded-md bg-gray-100 dark:bg-gray-900 dark:text-gray-200 focus:outline-none focus:ring-1 focus:ring-gray-500 dark:focus:ring-gray-400 w-full max-w-[200px] md:max-w-[300px]"
             placeholder="Search..."
-            type="search"
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
         </form>
       </div>

@@ -80,7 +80,7 @@ const Sidebar = () => {
         <Link
           to="/dashboard?tab=comments"
           className={`flex items-center px-4 py-2 mt-5  ${
-            tab === "posts" ? "bg-gray-700 text-white" : "hover:bg-gray-600"
+            tab === "comments" ? "bg-gray-700 text-white" : "hover:bg-gray-600"
           } dark:text-gray-200 transition-colors duration-200 transform rounded-md`}
         >
           <MessageCircleMore className="w-5 h-5" />

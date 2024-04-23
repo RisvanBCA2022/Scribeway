@@ -67,7 +67,7 @@ const Dashboardusers = () => {
                 <TableHead className="text-left">User Image</TableHead>
                 <TableHead className="text-left">Username</TableHead>
                 <TableHead className="text-left">Email</TableHead>
-                <TableHead className="text-center">Admin</TableHead>
+                <TableHead>Admin</TableHead>
                 <TableHead className="text-center">Delete</TableHead>
               </TableRow>
             </TableHeader>
