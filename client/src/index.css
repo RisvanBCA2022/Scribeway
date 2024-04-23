@@ -115,3 +115,17 @@
   .dark .post-content a{
     color: red;
   }
+
+  .terminal-wrapper {
+    background-color: black;
+    color: white;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #444;
+    font-family: monospace;
+  }
+  
+  .terminal-wrapper pre {
+    margin: 0;
+  }

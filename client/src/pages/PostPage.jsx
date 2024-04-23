@@ -77,8 +77,9 @@ const PostPage = () => {
     </div>
     <div
         className='p-3 max-w-2xl mx-auto w-screen overflow-hidden post-content'
-        dangerouslySetInnerHTML={{ __html: post && post.content }}
+        // dangerouslySetInnerHTML={{ __html: post && post.content }}
       >
+                {post && renderContent(post.content)}
 
       </div>
     {/* <div className="max-w-4xl mx-auto w-full">
@@ -95,5 +96,32 @@ const PostPage = () => {
     </div>
   </main>;
 };
+
+const renderContent = (htmlContent) => {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(htmlContent, 'text/html');
+  const elements = doc.body.childNodes;
+
+  return Array.from(elements).map((element, index) => {
+    if (element.nodeName === 'PRE' && element.firstChild.nodeName === 'CODE') {
+      return (
+        <div className="terminal-wrapper" key={index}>
+          <SyntaxHighlighter language="css" style={terminalStyle}>
+            {element.firstChild.textContent}
+          </SyntaxHighlighter>
+        </div>
+      );
+    } else if (element.nodeName === 'IMG') {
+      return (
+        <img key={index} src={element.src} alt={element.alt} />
+      );
+    } else {
+      return (
+        <div key={index} dangerouslySetInnerHTML={{ __html: element.outerHTML }} />
+      );
+    }
+  });
+};
+
 
 export default PostPage;
