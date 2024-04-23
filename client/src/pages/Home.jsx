@@ -291,13 +291,13 @@ const Home = () => {
       {/* <div className="px-10">
         <Calltoaction />
       </div> */}
-      <div className="max-2-6xl justify-center items-end p-3 flex flex-col flex-wrap gap-8 py-7">
+      <div className="max-2-6xl items-center justify-center p-3 flex flex-col flex-wrap gap-8 py-7">
         {posts && posts.length > 0 && (
-          <div className="flex flex-wrap items-center justify-center">
+          <div className="">
             <h2 className="text-4xl font-semibold text-center">Recent Posts</h2>
             <div className="flex flex-wrap gap-4 justify-center pt-16">
               {posts.map((post) => (
-                <PostCard post={post} />
+                <PostCard post={post} key={post._id} />
               ))}
             </div>
           </div>

@@ -16,9 +16,18 @@ import UpdatePost from "./pages/UpdatePost"
 import PostPage from "./pages/PostPage"
 import ScrollTop from "./components/Scrolltotop"
 import Search from "./pages/Search"
+import { useEffect } from "react"
+import { GlobalDebug } from "./lib/remove-consoles"
 
 
 function App() {
+  useEffect(() => {
+    ( import.meta.envNODE_ENV === "production" ||
+    import.meta.envREACT_APP_ENV === "STAGING") &&
+      GlobalDebug(false);
+  }, []);
+
+  console.log("I am just another dummy console log,suppose to be suppressed 🙂");
   return (
     <ThemeProvider>
     <BrowserRouter>
