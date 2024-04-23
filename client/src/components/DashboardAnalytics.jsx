@@ -133,84 +133,136 @@ const DashboardAnalytics = () => {
         <div className="flex flex-col w-full md:w-auto shadow-md p-2 rounded-md dark:bg-gray-800">
           <div className="flex justify-between p-3 text-sm font-semibold">
             <h1 className="text-center p-2">Recent Uers</h1>
-            <Button className="">
-              <Link to={`/dashboard?tab=users`}>See all</Link>
-            </Button>
+            <Link
+              to={`/dashboard?tab=users`}
+              href=""
+              className="h-10 hover:bg-indigo-700 hover:text-white text-indigo-700 border border-indigo-600 py-2 px-6 gap-2 rounded flex items-center"
+            >
+              <span>See All</span>
+              <svg
+                class="w-4"
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+                className="w-6 h-6"
+              >
+                <path d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+              </svg>
+            </Link>
           </div>
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead >User image</TableHead>
+                <TableHead>User image</TableHead>
                 <TableHead>Username</TableHead>
               </TableRow>
             </TableHeader>
-            {users.map((user)=>(
-
-            <TableBody>
-              <TableRow>
-                <TableCell className="font-medium">
-                  <img src={user.profilePicture} alt="" className="w-10 h-10 rounded-full bg-gray-500" />
-                </TableCell>
-                <TableCell>{user.username}</TableCell>
-              </TableRow>
-            </TableBody>
+            {users.map((user) => (
+              <TableBody>
+                <TableRow>
+                  <TableCell className="font-medium">
+                    <img
+                      src={user.profilePicture}
+                      alt=""
+                      className="w-10 h-10 rounded-full bg-gray-500"
+                    />
+                  </TableCell>
+                  <TableCell>{user.username}</TableCell>
+                </TableRow>
+              </TableBody>
             ))}
           </Table>
         </div>
         <div className="flex flex-col w-full md:w-auto shadow-md p-2 rounded-md dark:bg-gray-800">
           <div className="flex justify-between p-3 text-sm font-semibold">
             <h1 className="text-center p-2">Recent comments</h1>
-            <Button className="">
-              <Link to={`/dashboard?tab=comments`}>See all</Link>
-            </Button>
+            <Link
+              to={`/dashboard?tab=comments`}
+              href=""
+              className="h-10 hover:bg-indigo-700 hover:text-white text-indigo-700 border border-indigo-600 py-2 px-6 gap-2 rounded flex items-center"
+            >
+              <span>See All</span>
+              <svg
+                class="w-4"
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+                className="w-6 h-6"
+              >
+                <path d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+              </svg>
+            </Link>
           </div>
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead >comments content</TableHead>
+                <TableHead>comments content</TableHead>
                 <TableHead>likes</TableHead>
               </TableRow>
             </TableHeader>
-            {comments.map((comment)=>(
-
-            <TableBody>
-              <TableRow>
-                <TableCell className="font-medium">
-                  <p className="line-clamp-2">{comment.content}</p>
-                </TableCell>
-                <TableCell>{comment.numberOfLikes}</TableCell>
-              </TableRow>
-            </TableBody>
+            {comments.map((comment) => (
+              <TableBody>
+                <TableRow>
+                  <TableCell className="font-medium">
+                    <p className="line-clamp-2">{comment.content}</p>
+                  </TableCell>
+                  <TableCell>{comment.numberOfLikes}</TableCell>
+                </TableRow>
+              </TableBody>
             ))}
           </Table>
         </div>
         <div className="flex flex-col w-full md:w-auto shadow-md p-2 rounded-md dark:bg-gray-800">
           <div className="flex justify-between p-3 text-sm font-semibold">
             <h1 className="text-center p-2">Recent Posts</h1>
-            <Button className="">
-              <Link to={`/dashboard?tab=users`}>See all</Link>
-            </Button>
+            <Link
+              to={`/dashboard?tab=posts`}
+              href=""
+              className="h-10 hover:bg-indigo-700 hover:text-white text-indigo-700 border border-indigo-600 py-2 px-6 gap-2 rounded flex items-center"
+            >
+              <span>See All</span>
+              <svg
+                class="w-4"
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+                className="w-6 h-6"
+              >
+                <path d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+              </svg>
+            </Link>
           </div>
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead >Post image</TableHead>
+                <TableHead>Post image</TableHead>
                 <TableHead>Post Title</TableHead>
                 <TableHead>Post category</TableHead>
               </TableRow>
             </TableHeader>
-            {posts.map((post)=>(
-
-            <TableBody>
-              <TableRow>
-                <TableCell className="font-medium">
-                  <img src={post.image} alt="" className="w-14 h-10 rounded-md bg-gray-500" />
-                </TableCell>
-                <TableCell className='w-96'>{post.title}</TableCell>
-                <TableCell className='w-5'>{post.category}</TableCell>
-
-              </TableRow>
-            </TableBody>
+            {posts.map((post) => (
+              <TableBody>
+                <TableRow>
+                  <TableCell className="font-medium">
+                    <img
+                      src={post.image}
+                      alt=""
+                      className="w-14 h-10 rounded-md bg-gray-500"
+                    />
+                  </TableCell>
+                  <TableCell className="w-96">{post.title}</TableCell>
+                  <TableCell className="w-5">{post.category}</TableCell>
+                </TableRow>
+              </TableBody>
             ))}
           </Table>
         </div>
