@@ -27,7 +27,6 @@ function App() {
       GlobalDebug(false);
   }, []);
 
-  console.log("I am just another dummy console log,suppose to be suppressed 🙂");
   return (
     <ThemeProvider>
     <BrowserRouter>
