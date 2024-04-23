@@ -19,6 +19,7 @@ import Search from "./pages/Search"
 import { useEffect } from "react"
 import { GlobalDebug } from "./lib/remove-consoles"
 import ErrorPage from "./components/ErrorPage"
+import RouteBlock from "./components/RouteBlock"
 
 
 function App() {
@@ -36,8 +37,10 @@ function App() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/about" element={<About />} />
+      <Route element={<RouteBlock />}>
       <Route path="/sign-in" element={<Signin />} />
       <Route path="/sign-up" element={<Signup />} />
+      </Route>
       <Route path="/search" element={<Search />} />
 
       <Route element={<PrivateRoute />}>

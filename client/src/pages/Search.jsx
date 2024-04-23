@@ -173,7 +173,7 @@ const Search = () => {
             }
               {
                 !loading && posts && posts.map((post)=>(
-                    <PostCard post={post} />
+                    <PostCard key={post._id} post={post} />
                 ))
             }
         </div>
