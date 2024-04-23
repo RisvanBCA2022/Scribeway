@@ -22,8 +22,8 @@ import { GlobalDebug } from "./lib/remove-consoles"
 
 function App() {
   useEffect(() => {
-    ( import.meta.envNODE_ENV === "production" ||
-    import.meta.envREACT_APP_ENV === "STAGING") &&
+    ( import.meta.env.NODE_ENV === "production" ||
+    import.meta.env.REACT_APP_ENV === "STAGING") &&
       GlobalDebug(false);
   }, []);
 
