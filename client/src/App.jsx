@@ -18,6 +18,7 @@ import ScrollTop from "./components/Scrolltotop"
 import Search from "./pages/Search"
 import { useEffect } from "react"
 import { GlobalDebug } from "./lib/remove-consoles"
+import ErrorPage from "./components/ErrorPage"
 
 
 function App() {
@@ -49,8 +50,7 @@ function App() {
       </Route>
       <Route path="/projects" element={<Projects />} />
       <Route path="/posts/:postSlug" element={<PostPage />} />
-
-
+      <Route path="*" element={<ErrorPage />} />
     </Routes>
     <Footer />
     </BrowserRouter>
