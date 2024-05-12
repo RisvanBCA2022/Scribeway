@@ -7,6 +7,7 @@ import userRoutes from './routes/user.route.js'
 import authRoutes from './routes/authRoutes.js'
 import postRoutes from './routes/postRoute.js'
 import commentRoutes from './routes/commentRoutes.js'
+import sitmapRoutes from './routes/sitemapRoutes.js'
 
 
 dotenv.config();
@@ -34,15 +35,16 @@ app.use('/api/auth',authRoutes)
 app.use('/api/user',userRoutes)
 app.use('/api/post',postRoutes)
 app.use('/api/comment',commentRoutes)
+app.use('/',sitmapRoutes)
 
 app.use(express.static(path.join(__dirname, '/client/dist')))
 
 app.get('*',(req,res)=>{
   res.sendFile(path.join(__dirname, 'client','dist', 'index.html'))
 })
-app.get('/', (req,res)=>{
-    res.json({"message":"API is working"})
-});
+// app.get('/', (req,res)=>{
+//     res.json({"message":"API is working"})
+// });
 
 
 
