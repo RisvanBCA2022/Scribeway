@@ -43,7 +43,6 @@ const PostPage = () => {
       const fetchRecentPost= async ()=>{
         const res = await fetch(`/api/post/getposts?limit=3`)
         const data = await res.json()
-        console.log(data);
         if(res.ok){
           setRecentPost(data.posts)
         }
@@ -55,7 +54,6 @@ const PostPage = () => {
       console.log(error);
     }
   },[])
-  console.log(recentPost);
 
   if (loading)
     return (

@@ -15,7 +15,6 @@ import {
   
   export function UserDeleteDialog({ deleteuser,setUsers }) {
     const { currentUser } = useSelector((state) => state.user);
-    console.log(deleteuser,currentUser);
 
     const handleDeleteUser = async () => {
       try {
@@ -27,7 +26,6 @@ import {
         );
         const data = await res.json();
         if (!res.ok) {
-          console.log(data.message);
         } else {
             setUsers((prev) =>
             prev.filter((user) => user._id !== deleteuser._id)

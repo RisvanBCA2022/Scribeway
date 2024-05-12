@@ -40,7 +40,6 @@ const Search = () => {
       }
       if (res.ok) {
         const data = await res.json();
-        console.log(data);
         setPosts(data.posts);
         setLoading(false);
         if (data.posts.length === 9) {

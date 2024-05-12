@@ -32,7 +32,6 @@ export default function Signup() {
         })
 
         const data = await res.json()
-        console.log(data);
 
         if(data.success === false){
           return toast.error(data.message)

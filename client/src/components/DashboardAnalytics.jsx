@@ -56,7 +56,6 @@ const DashboardAnalytics = () => {
       try {
         const res = await fetch("/api/comment/getcomments?limit=5");
         const data = await res.json();
-        console.log(data);
         if (res.ok) {
           setComments(data.comments);
           setTotalComments(data.totalComments);
@@ -73,7 +72,6 @@ const DashboardAnalytics = () => {
       fetchComments();
     }
   }, [currentUser]);
-  console.log(comments, totalComments, lastMonthComments);
 
   return (
     <div className="p-3 md:mx-auto pt-16">
