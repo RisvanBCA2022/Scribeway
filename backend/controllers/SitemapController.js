@@ -9,7 +9,7 @@ export const generateSitemap = async (req, res) => {
 
     posts.forEach((post) => {
       urls.push({
-        url: `/blog/${post.slug}`,
+        url: `/posts/${post.slug}`,
         changefreq: "weekly",
         priority: 0.7,
         lastmodISO: post.updatedAt.toISOString(),
