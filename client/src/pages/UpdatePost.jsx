@@ -1,3 +1,4 @@
+import { updatePost } from "@/actions/postActions";
 import { AlertDestructive } from "@/components/ErrorAlert";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -22,19 +23,23 @@ import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
 const UpdatePost = () => {
-  const {currentUser}=useSelector((state)=>state.user)
+  const { currentUser } = useSelector((state) => state.user);
+  const { loading, error } = useSelector((state) => state.post);
+
   const [file, setFile] = useState(null);
   const [imageUploadProgress, setImageUploadProgress] = useState(null);
   const [imageUploadError, setImageUploadError] = useState(null);
   const [formData, setFormData] = useState({});
-  const [publishError,setPublishError]=useState(null)
-  const {postId}=useParams()
+  const [publishError, setPublishError] = useState(null);
+  const { postId } = useParams();
 
-  const navigate=useNavigate()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   useEffect(() => {
     try {
       const fetchPost = async () => {
@@ -96,31 +101,19 @@ const UpdatePost = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const res = await fetch(`/api/post/updatepost/${formData._id}/${currentUser._id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        setPublishError(data.message);
-        return;
-      }
+    dispatch(updatePost({ postId: formData._id, userId: currentUser._id, formData }));
+    navigate(`/posts/${formData.slug}`);
 
-      if (res.ok) {
-        setPublishError(null);
-        navigate(`/post/${data.slug}`);
-      }
-    } catch (error) {
-      setPublishError('Something went wrong');
-    }
   };
+
   return (
     <div className="p-3 max-w-3xl mx-auto min-h-screen">
       <h1 className="text-center text-3xl my-7 font-semibold">Update post</h1>
+
+      {error && (
+        <AlertDestructive variant="error" title="Error" description={error} />
+      )}
+
       <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
         <div className="flex flex-col gap-4 sm:flex-row justify-between">
           <Input
@@ -130,25 +123,25 @@ const UpdatePost = () => {
             id="title"
             defaultValue={formData.title}
             className="flex-1"
-            onChange={(e)=>setFormData({...formData,title:e.target.value})}
+            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
           />
-         <Select 
-  onValueChange={(e)=>setFormData({...formData, category: e})}
-  defaultValue={formData.category}
->
-  <SelectTrigger className="w-[180px]">
-    <SelectValue placeholder="Select a category" />
-  </SelectTrigger>
-  <SelectContent>
-    <SelectGroup>
-      <SelectItem value="javascript">JavaScript</SelectItem>
-      <SelectItem value="reactjs">React.js</SelectItem>
-      <SelectItem value="nextjs">Next.js</SelectItem>
-      <SelectItem value="nodejs">Nodejs</SelectItem>
-      <SelectItem value="mongodb">MongoDB</SelectItem>
-    </SelectGroup>
-  </SelectContent>
-</Select> 
+          <Select
+            onValueChange={(e) => setFormData({ ...formData, category: e })}
+            defaultValue={formData.category}
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Select a category" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem value="javascript">JavaScript</SelectItem>
+                <SelectItem value="reactjs">React.js</SelectItem>
+                <SelectItem value="nextjs">Next.js</SelectItem>
+                <SelectItem value="nodejs">Nodejs</SelectItem>
+                <SelectItem value="mongodb">MongoDB</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
         </div>
         <div className="flex gap-4 items-center justify-between">
           <Input
@@ -157,21 +150,19 @@ const UpdatePost = () => {
             onChange={(e) => setFile(e.target.files[0])}
           />
           <Button onClick={handleUploadImage} type="button" disabled={imageUploadProgress}>
-            {
-              imageUploadProgress?
+            {imageUploadProgress ? (
               <div className="w-9 h-9">
                 <CircularProgressbar value={imageUploadProgress} text={`${imageUploadProgress || 0}%`} />
-              </div>:'Upload Image'
-            }
+              </div>
+            ) : 'Upload Image'}
           </Button>
         </div>
         {imageUploadError && (
-        <AlertDestructive variant="error" title="Error" description={imageUploadError} />
+          <AlertDestructive variant="error" title="Error" description={imageUploadError} />
         )}
-
         {formData.image && (
           <img src={formData.image} alt="upload" className="w-full h-72 object-cover" />
-          )}
+        )}
 
         <ReactQuill
           theme="snow"
@@ -179,15 +170,19 @@ const UpdatePost = () => {
           placeholder="Write something..."
           className="h-72 mb-12 dark:text-whtie"
           required
-          onChange={(value)=>{
-            setFormData({...formData,content:value})
+          onChange={(value) => {
+            setFormData({ ...formData, content: value });
           }}
         />
-        <Button type="submit">Update post</Button>
-        {
-          publishError && <AlertDestructive variant='error' description={publishError} title='Error' />
-          
-        }
+
+        <Button type="submit" disabled={loading}>
+          {loading ? 'Updating...' : 'Update post'}
+        </Button>
+
+        {/* Display publish error below the form */}
+        {publishError && (
+          <AlertDestructive variant="error" description={publishError} title="Error" />
+        )}
       </form>
     </div>
   );

@@ -23,15 +23,18 @@ import "react-circular-progressbar/dist/styles.css";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { createPost } from "@/actions/postActions";
 
 const CreatePost = () => {
   const [file, setFile] = useState(null);
   const [imageUploadProgress, setImageUploadProgress] = useState(null);
   const [imageUploadError, setImageUploadError] = useState(null);
   const [formData, setFormData] = useState({});
-  const [publishError, setPublishError] = useState(null);
-
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { loading, error, post } = useSelector((state) => state.post);
 
   const handleUploadImage = async () => {
     try {
@@ -73,31 +76,13 @@ const CreatePost = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    try {
-      const res = await fetch("/api/post/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        setPublishError(data.message);
-        return;
+    dispatch(createPost(formData)).then((result) => {
+      if (result.meta.requestStatus === "fulfilled") {
+        navigate(`/posts/${result.payload.slug}`);
       }
-
-      if (res.ok) {
-        setPublishError(null);
-        navigate(`/posts/${data.slug}`);
-      }
-    } catch (error) {
-      setPublishError("Something Went Wrong");
-    }
+    });
   };
+
   return (
     <div className="p-3 max-w-3xl mx-auto min-h-screen">
       <h1 className="text-center text-3xl my-7 font-semibold">Create a post</h1>
@@ -174,17 +159,19 @@ const CreatePost = () => {
         <ReactQuill
           theme="snow"
           placeholder="Write something..."
-          className="h-72 mb-12 dark:text-whtie"
+          className="h-72 mb-12 dark:text-white"
           required
           onChange={(value) => {
             setFormData({ ...formData, content: value });
           }}
         />
-        <Button type="submit">Publish</Button>
-        {publishError && (
+        <Button type="submit" disabled={loading}>
+          {loading ? "Publishing..." : "Publish"}
+        </Button>
+        {error && (
           <AlertDestructive
             variant="error"
-            description={publishError}
+            description={error}
             title="Error"
           />
         )}
