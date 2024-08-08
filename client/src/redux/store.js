@@ -1,6 +1,7 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import userReducer from './user/userSlice'
 import postReducer from "./post/postSlice";
+import dashboardReducer from "./dashboard/dashboardSlice";
 import persistReducer from "redux-persist/es/persistReducer";
 import storage from "redux-persist/lib/storage";
 import { persistStore } from "redux-persist";
@@ -10,6 +11,8 @@ import { persistStore } from "redux-persist";
 const rootReducer = combineReducers({
     user:userReducer,
     post: postReducer, 
+    dashboard: dashboardReducer,
+
 })
 
 const persistConfig = {

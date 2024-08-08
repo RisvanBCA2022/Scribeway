@@ -47,4 +47,36 @@ export const createPost = createAsyncThunk(
     }
   );
 
-  
+  // Fetch specific post
+export const fetchPost = createAsyncThunk(
+  "post/fetchPost",
+  async (postId, { rejectWithValue }) => {
+    try {
+      const res = await fetch(`/api/post/getposts?postId=${postId}`);
+      const data = await res.json();
+      if (!res.ok) {
+        return rejectWithValue(data.message);
+      }
+      return data.posts[0];
+    } catch (error) {
+      return rejectWithValue("Something went wrong");
+    }
+  }
+);
+
+
+// fetch all posts
+
+export const fetchUserPosts = createAsyncThunk(
+  "posts/fetchUserPosts",
+  async (userId, { rejectWithValue }) => {
+    try {
+      const response = await fetch(`/api/post/getposts?userId=${userId}`);
+      if (!response.ok) throw new Error('Failed to fetch posts');
+      const data = await response.json();
+      return data.posts;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Table,
   TableBody,
@@ -8,62 +8,40 @@ import {
   TableHeader,
   TableRow,
 } from "./ui/table";
-import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
 import { PostDeleteDialog } from "./PostDeleteConfirm";
+import {  addPosts } from "../redux/dashboard/dashboardSlice";
+import { fetchUserPosts } from "../actions/postActions";
 
 const DashboardPosts = () => {
   const { currentUser } = useSelector((state) => state.user);
-
-  const [userPosts, setUserPosts] = useState([]);
-  const [showMore, setShowMore] = useState(true);
-  const [postIdToDelete, setPostIdToDelete] = useState('');
-
+  const { posts, loading, error, hasMore } = useSelector((state) => state.dashboard);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const res = await fetch(`/api/post/getposts?userId=${currentUser._id}`);
-        const data = await res.json();
-
-        if (res.ok) {
-          setUserPosts(data.posts);
-          if (data.posts.length < 9) {
-            setShowMore(false);
-          }
-        }
-      } catch (error) {
-        console.log(error.message);
-      }
-    };
     if (currentUser.isAdmin) {
-      fetchPosts();
+      dispatch(fetchUserPosts(currentUser._id));
     }
-  }, [currentUser._id]);
+  }, [dispatch, currentUser._id, currentUser.isAdmin]);
 
   const handleShowMore = async () => {
-    const startIndex = userPosts.length;
+    const startIndex = posts.length;
     try {
       const res = await fetch(
         `/api/post/getposts?userId=${currentUser._id}&startIndex=${startIndex}`
       );
-      const data = await res.json()
-      if(res.ok){
-        setUserPosts((prev)=> [...prev,...data.posts])
-        if(data.posts.length < 9){
-            setShowMore(false)
-        }
+      const data = await res.json();
+      if (res.ok) {
+        dispatch(addPosts(data.posts));
       }
-
     } catch (error) {
       console.log(error.message);
     }
   };
 
-
   return (
     <div className="overflow-x-auto w-full p-3 lg:w-[80%] lg:p-10">
-      {currentUser.isAdmin && userPosts.length > 0 ? (
+      {currentUser.isAdmin && posts.length > 0 ? (
         <>
           <Table>
             <TableHeader>
@@ -73,12 +51,12 @@ const DashboardPosts = () => {
                 <TableHead className="text-left">Post Title</TableHead>
                 <TableHead className="text-left">Category</TableHead>
                 <TableHead className="text-center">Delete</TableHead>
-                <TableHead className="text-center">EDIT</TableHead>
+                <TableHead className="text-center">Edit</TableHead>
               </TableRow>
             </TableHeader>
-            {userPosts.map((post) => (
-              <TableBody key={post._id} >
-                <TableRow  className=" dark:border-gray-700">
+            <TableBody>
+              {posts.map((post) => (
+                <TableRow key={post._id} className="dark:border-gray-700">
                   <TableCell>
                     {new Date(post.updatedAt).toLocaleDateString()}
                   </TableCell>
@@ -107,8 +85,7 @@ const DashboardPosts = () => {
                   </TableCell>
                   <TableCell>{post.category}</TableCell>
                   <TableCell className="text-center">
-                    <PostDeleteDialog deletepost={post} setUserPosts={setUserPosts} userPosts={userPosts} />
-                   
+                    <PostDeleteDialog deletepost={post} userPosts={posts} />
                   </TableCell>
                   <TableCell className="text-center">
                     <Link
@@ -121,15 +98,15 @@ const DashboardPosts = () => {
                     </Link>
                   </TableCell>
                 </TableRow>
-              </TableBody>
-            ))}
+              ))}
+            </TableBody>
           </Table>
-          {showMore && (
+          {hasMore && (
             <button
               onClick={handleShowMore}
               className="w-full text-teal self-center text-sm py-7"
             >
-              Show More
+              {loading ? "Loading..." : "Show More"}
             </button>
           )}
         </>

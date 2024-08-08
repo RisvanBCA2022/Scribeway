@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createPost, updatePost } from "@/actions/postActions";
+import { createPost, fetchPost, updatePost } from "@/actions/postActions";
 
 const postSlice = createSlice({
   name: "post",
@@ -38,7 +38,21 @@ const postSlice = createSlice({
       .addCase(updatePost.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      });
+      })
+      //fetch post reducer
+      .addCase(fetchPost.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchPost.fulfilled, (state, action) => {
+        state.loading = false;
+        state.post = action.payload;
+        state.error = null;
+      })
+      .addCase(fetchPost.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
   },
 });
 
