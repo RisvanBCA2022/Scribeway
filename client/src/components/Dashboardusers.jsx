@@ -8,7 +8,6 @@ import {
   TableHeader,
   TableRow,
 } from "./ui/table";
-import { PostDeleteDialog } from "./PostDeleteConfirm";
 import { Avatar, AvatarImage } from "./ui/avatar";
 import { ShieldCheck, X } from "lucide-react";
 import { UserDeleteDialog } from "./UserDeleteConfirm";
@@ -56,6 +55,62 @@ const Dashboardusers = () => {
     }
   };
 
+  // Function to promote user to admin
+  const promoteToAdmin = async (userId) => {
+    try {
+      const res = await fetch(`/api/user/setadmin/${userId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${currentUser.token}`, // Assuming you have the token in currentUser
+        },
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        // Update the user in the list after they are promoted to admin
+        setUsers((prevUsers) =>
+          prevUsers.map((user) =>
+            user._id === userId ? { ...user, isAdmin: true } : user
+          )
+        );
+      } else {
+        console.error(data.message);
+      }
+    } catch (error) {
+      console.error('Error promoting user to admin:', error.message);
+    }
+  };
+
+  // Function to revert user to a normal user
+  const revertToUser = async (userId) => {
+    try {
+      const res = await fetch(`/api/user/reverttouser/${userId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${currentUser.token}`,
+        },
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        // Update the user in the list after they are reverted to normal user
+        setUsers((prevUsers) =>
+          prevUsers.map((user) =>
+            user._id === userId ? { ...user, isAdmin: false } : user
+          )
+        );
+      } else {
+        console.error(data.message);
+      }
+    } catch (error) {
+      console.error('Error reverting user to normal:', error.message);
+    }
+  };
+
   return (
     <div className="overflow-x-auto w-full p-3 m-4 rounded-md lg:w-[80%] lg:p-10 bg-gray-800">
       {currentUser.isAdmin && users.length > 0 ? (
@@ -69,6 +124,7 @@ const Dashboardusers = () => {
                 <TableHead className="text-left">Email</TableHead>
                 <TableHead>Admin</TableHead>
                 <TableHead className="text-center">Delete</TableHead>
+                <TableHead className="text-center">Admin Control</TableHead>
               </TableRow>
             </TableHeader>
             {users.map((user) => (
@@ -88,15 +144,31 @@ const Dashboardusers = () => {
                   <TableCell>{user.username}</TableCell>
                   <TableCell>{user.email}</TableCell>
                   <TableCell>
-                    {user.isAdmin ? (
+                    {user.role === "admin" ? (
                       <ShieldCheck className="text-green-400" />
                     ) : (
                       <X className="text-red-400" />
                     )}
                   </TableCell>
-
                   <TableCell className="text-center">
                     <UserDeleteDialog deleteuser={user} setUsers={setUsers} />
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {user.role === "admin" ? (
+                      <button
+                        onClick={() => revertToUser(user._id)}
+                        className="text-red-500"
+                      >
+                        Revert to User
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => promoteToAdmin(user._id)}
+                        className="text-blue-500"
+                      >
+                        Set Admin
+                      </button>
+                    )}
                   </TableCell>
                 </TableRow>
               </TableBody>

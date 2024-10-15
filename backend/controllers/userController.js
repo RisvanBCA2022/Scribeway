@@ -133,3 +133,49 @@ export const getuser = async (req,res,next)=>{
     
   }
 }
+//Set as admin
+export const setUserAsAdmin = async (req, res) => {
+  try {
+    const { userId } = req.params; 
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    if (user.role === 'admin') {
+      return res.status(400).json({ message: 'User is already an admin' });
+    }
+
+    user.role = 'admin';
+    await user.save();
+
+    res.status(200).json({ message: 'User promoted to admin successfully', user });
+  } catch (error) {
+    res.status(500).json({ message: 'An error occurred', error });
+  }
+};
+
+export const revertToUser = async (req, res) => {
+  try {
+    const { userId } = req.params; 
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    if (!user.role === 'admin') {
+      return res.status(400).json({ message: 'User is not an admin' });
+    }
+
+    user.role = 'user';
+    await user.save();
+
+    res.status(200).json({ message: 'User reverted to normal user successfully', user });
+  } catch (error) {
+    res.status(500).json({ message: 'An error occurred', error });
+  }
+};
