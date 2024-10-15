@@ -209,7 +209,7 @@ const DashBoardProfile = () => {
         >
           {loading ? "Loading..." : "Update"}
         </Button>
-        {currentUser.isAdmin && (
+        {currentUser.isAdmin || currentUser.role === 'admin' && (
           <Link to={"/create-post"}>
             <Button
               type="button"

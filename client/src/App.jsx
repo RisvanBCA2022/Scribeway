@@ -20,6 +20,7 @@ import { useEffect } from "react"
 import { GlobalDebug } from "./lib/remove-consoles"
 import ErrorPage from "./components/ErrorPage"
 import RouteBlock from "./components/RouteBlock"
+import { useSelector } from "react-redux"
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
     import.meta.env.REACT_APP_ENV === "STAGING") &&
       GlobalDebug(false);
   }, []);
+  const { currentUser } = useSelector((state) => state.user);
 
   return (
     <ThemeProvider>
